@@ -25,7 +25,7 @@ public class VisibleBarriers implements ModInitializer {
 		SHOWING_BARRIERS = !SHOWING_BARRIERS;
 
 		// Send update message
-		MinecraftClient.getInstance().player.sendMessage(new TranslatableText("message.visiblebarriers.toggle", SHOWING_BARRIERS ? "Visible Barriers" : "Vanilla"));
+		MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new TranslatableText("message.visiblebarriers.toggle", SHOWING_BARRIERS ? "Visible Barriers" : "Vanilla"));
 
 		// Reload chunks
 		MinecraftClient.getInstance().worldRenderer.reload();
