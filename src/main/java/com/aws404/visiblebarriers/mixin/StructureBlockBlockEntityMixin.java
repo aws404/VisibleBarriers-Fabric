@@ -26,6 +26,7 @@ public abstract class StructureBlockBlockEntityMixin extends BlockEntity {
     @Shadow
     private Identifier structureName;
 
+
     public StructureBlockBlockEntityMixin(BlockEntityType<?> type) {
         super(type);
     }

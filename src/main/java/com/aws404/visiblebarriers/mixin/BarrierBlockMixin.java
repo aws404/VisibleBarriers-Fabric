@@ -1,7 +1,10 @@
 package com.aws404.visiblebarriers.mixin;
 
 import com.aws404.visiblebarriers.VisibleBarriers;
-import net.minecraft.block.*;
+import net.minecraft.block.BarrierBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.math.Direction;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

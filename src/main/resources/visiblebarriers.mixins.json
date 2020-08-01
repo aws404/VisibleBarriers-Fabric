@@ -8,7 +8,11 @@
   "client": [
     "StructureVoidBlockMixin",
     "BarrierBlockMixin",
-    "ClientWorldMixin"
+    "ClientWorldMixin",
+    "UpdateStructureBlockC2SPacketMixin",
+    "StructureBlockBlockEntityMixin",
+    "ScreenMixin",
+    "ItemsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

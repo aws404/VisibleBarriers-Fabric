@@ -1,4 +1,16 @@
 {
-  "message.visiblebarriers.toggle": "Toggled barrier mode: %s",
-  "key.visiblebarriers.toggle": "Toggle Barrier Mode"
+  "key.visiblebarriers.toggle": "Toggle Barrier Mode",
+
+  "toast.visiblebarriers.toggle.title": "Barrier Visibility",
+  "toast.visiblebarriers.toggle.desc": "Blocks are now: %s",
+
+  "options.visiblebarriers.shown": "Visible",
+  "options.visiblebarriers.hidden": "Hidden",
+
+  "commands.blockdata.success": "Block data updated to: %s",
+  "commands.blockdata.tagError": "Data tag parsing failed: %s",
+  "commands.blockdata.outOfWorld": "Cannot change block outside of the world",
+  "commands.blockdata.notValid": "The target block is not a data holder block",
+  "commands.blockdata.failed": "The data tag did not change: %s"
+
 }
