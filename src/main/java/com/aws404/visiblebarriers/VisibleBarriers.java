@@ -5,14 +5,16 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.toast.SystemToast;
 import net.minecraft.text.TranslatableText;
 
 public class VisibleBarriers implements ModInitializer {
 
-	public static boolean SHOWING_BARRIERS = false;
+	private static boolean showingBarriers = false;
 
 	@Override
 	public void onInitialize() {
+		System.out.println("initilising");
 		// Register the key binding
 		KeyBindings.registerKeyBindings();
 
@@ -22,12 +24,16 @@ public class VisibleBarriers implements ModInitializer {
 
 	public static void toggleBarrierMode() {
 		// Set new value
-		SHOWING_BARRIERS = !SHOWING_BARRIERS;
+		showingBarriers = !showingBarriers;
 
-		// Send update message
-		MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new TranslatableText("message.visiblebarriers.toggle", SHOWING_BARRIERS ? "Visible Barriers" : "Vanilla"));
+		// Sends the update toast message
+		SystemToast.show(MinecraftClient.getInstance().getToastManager(), SystemToast.Type.WORLD_BACKUP, new TranslatableText("toast.visiblebarriers.toggle.title"), new TranslatableText("toast.visiblebarriers.toggle.desc", showingBarriers ? new TranslatableText("options.visiblebarriers.shown") : new TranslatableText("options.visiblebarriers.hidden")));
 
 		// Reload chunks
 		MinecraftClient.getInstance().worldRenderer.reload();
+	}
+
+	public static boolean isShowingBarriers() {
+		return showingBarriers;
 	}
 }

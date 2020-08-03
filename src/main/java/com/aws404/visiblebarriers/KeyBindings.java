@@ -16,6 +16,9 @@ public class KeyBindings {
         KeyBindingHelper.registerKeyBinding(TOGGLE_BARRIER_MODE);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (client.player == null || client.world == null)
+                return;
+            
             while (TOGGLE_BARRIER_MODE.wasPressed()) {
                 VisibleBarriers.toggleBarrierMode();
             }

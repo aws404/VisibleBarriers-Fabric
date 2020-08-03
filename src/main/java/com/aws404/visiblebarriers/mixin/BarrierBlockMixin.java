@@ -4,7 +4,9 @@ import com.aws404.visiblebarriers.VisibleBarriers;
 import net.minecraft.block.*;
 import net.minecraft.util.math.Direction;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BarrierBlock.class)
 public abstract class BarrierBlockMixin extends Block {
@@ -17,9 +19,9 @@ public abstract class BarrierBlockMixin extends Block {
 	 * Overwrites the default barrier method which returns INVISIBLE.
 	 * This makes the game actually attempt to load a model for the block
 	 */
-	@Overwrite
-	public BlockRenderType getRenderType(BlockState state) {
-		return BlockRenderType.MODEL;
+	@Inject(at = @At("HEAD"), method = "getRenderType", cancellable = true)
+	public void getRenderType(BlockState state, CallbackInfoReturnable<BlockRenderType> info) {
+		info.setReturnValue(BlockRenderType.MODEL);
 	}
 
 	/**
@@ -28,7 +30,7 @@ public abstract class BarrierBlockMixin extends Block {
 	 */
 	@Override
 	public boolean isSideInvisible(BlockState state, BlockState neighbor, Direction facing) {
-		if (!VisibleBarriers.SHOWING_BARRIERS)
+		if (!VisibleBarriers.isShowingBarriers())
 			return true;
 
 		return neighbor.getBlock() == this ? true : super.isSideInvisible(state, neighbor, facing);
