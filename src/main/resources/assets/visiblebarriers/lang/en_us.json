@@ -1,11 +1,20 @@
 {
   "key.visiblebarriers.toggle": "Toggle Barrier Mode",
+  "key.visiblebarriers.stands": "Toggle Armor Stand Visibility",
 
   "toast.visiblebarriers.toggle.title": "Barrier Visibility",
   "toast.visiblebarriers.toggle.desc": "Blocks are now: %s",
+  "toast.visiblebarriers.stands.title": "Invisible Armor Stands",
+  "toast.visiblebarriers.stands.desc": "Stands are now: %s",
 
   "options.visiblebarriers.shown": "Visible",
   "options.visiblebarriers.hidden": "Hidden",
+
+  "message.visiblebarriers.structure_name": "Structure Name: %s",
+
+  "menu.device.title": "Device Selector",
+  "menu.type.title": "Select Type",
+  "menu.rotation.title": "Select Rotation",
 
   "commands.blockdata.success": "Block data updated to: %s",
   "commands.blockdata.tagError": "Data tag parsing failed: %s",

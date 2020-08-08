@@ -12,7 +12,10 @@
     "UpdateStructureBlockC2SPacketMixin",
     "StructureBlockBlockEntityMixin",
     "ScreenMixin",
-    "ItemsMixin"
+    "ItemsMixin",
+    "ArmorStandEntityRendererMixin",
+    "InGameHudMixin",
+    "MinecraftClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1

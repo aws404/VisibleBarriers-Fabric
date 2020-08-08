@@ -25,6 +25,5 @@ public class UpdateStructureBlockC2SPacketMixin {
     @Inject(at = @At("RETURN"), method = "read", cancellable = true)
     private void read(PacketByteBuf buf, CallbackInfo info) throws IOException {
         this.size = new BlockPos(MathHelper.clamp(buf.readByte(), 0, 64), MathHelper.clamp(buf.readByte(), 0, 64), MathHelper.clamp(buf.readByte(), 0, 64));
-
     }
 }
