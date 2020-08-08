@@ -18,12 +18,12 @@ public abstract class ArmorStandEntityRendererMixin {
     private static final Identifier INVISIBLE_SKIN = new Identifier("textures/entity/armorstand/invisible.png");
 
     @Inject(method = "getRenderLayer", at = @At("HEAD"), cancellable = true)
-    private void getRenderLayer(ArmorStandEntity armorStandEntity, boolean bl, boolean bl2, CallbackInfoReturnable<RenderLayer> i) {
+    private void getRenderLayer(ArmorStandEntity armorStandEntity, boolean bl, boolean bl2, boolean b13, CallbackInfoReturnable<RenderLayer> i) {
         if (VisibleBarriers.isShowingStands()) {
             if (armorStandEntity.isMarker())
-                i.setReturnValue(RenderLayer.getCutoutNoCull(MARKER_SKIN, false));
+                i.setReturnValue(RenderLayer.getEntityCutoutNoCull(MARKER_SKIN, false));
             else if (armorStandEntity.isInvisible())
-                i.setReturnValue(RenderLayer.getCutoutNoCull(INVISIBLE_SKIN, false));
+                i.setReturnValue(RenderLayer.getEntityCutoutNoCull(INVISIBLE_SKIN, false));
         }
     }
 }
