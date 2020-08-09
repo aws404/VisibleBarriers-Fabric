@@ -1,7 +1,7 @@
 package com.aws404.visiblebarriers.structureblocktools.mixin;
 
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.c2s.play.UpdateStructureBlockC2SPacket;
+import net.minecraft.util.PacketByteBuf;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;

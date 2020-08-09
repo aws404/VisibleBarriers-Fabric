@@ -17,8 +17,8 @@ import net.minecraft.util.math.Vec3i;
 
 public class StructureBlockNameRenderer {
 
-    private static final Text PLACEHOLDER_MESSAGE = new LiteralText("undefined");
-    private static Text lastMessage = PLACEHOLDER_MESSAGE;
+    private static final String PLACEHOLDER_MESSAGE = "undefined";
+    private static String lastMessage = PLACEHOLDER_MESSAGE;
 
     private static final Vec3i[] OFFSETS = {
             new Vec3i(0,0,0),
@@ -59,12 +59,12 @@ public class StructureBlockNameRenderer {
 
                     // Ignore if name is blank
                     if (name != "" && name != null) {
-                        lastMessage = new TranslatableText("message.visiblebarriers.structure_name", name).formatted(Formatting.GOLD);
+                        lastMessage = new TranslatableText("message.visiblebarriers.structure_name", name).formatted(Formatting.GOLD).asFormattedString();
                         client.inGameHud.setOverlayMessage(lastMessage, false);
                     }
 
                 } else if (((InGameHudMixin) client.inGameHud).getOverlayMessage() != null && ((InGameHudMixin) client.inGameHud).getOverlayMessage().equals(lastMessage)) {
-                    client.inGameHud.setOverlayMessage(new LiteralText(""), false);
+                    client.inGameHud.setOverlayMessage("", false);
                     lastMessage = PLACEHOLDER_MESSAGE;
                 }
             }

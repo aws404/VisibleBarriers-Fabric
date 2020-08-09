@@ -47,7 +47,7 @@ public class ItemUtils {
 
         // Create structure block BlockEntity
         StructureBlockBlockEntity structureBlock = new StructureBlockBlockEntity();
-        structureBlock.fromTag(Blocks.STRUCTURE_BLOCK.getDefaultState(), tag);
+        structureBlock.fromTag(tag);
 
         // Create ItemStack
         ItemStack item = ((MinecraftClientMixin) mc).invokeAddBlockEntityNbt(new ItemStack(Blocks.STRUCTURE_BLOCK), structureBlock);
