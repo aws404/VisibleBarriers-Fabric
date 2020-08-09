@@ -1,4 +1,4 @@
-package com.aws404.visiblebarriers.screens;
+package com.aws404.visiblebarriers.devicemenu;
 
 import com.aws404.visiblebarriers.util.ItemUtils;
 import net.minecraft.client.gui.screen.Screen;

@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.aws404.visiblebarriers.technicalvisibility.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "StructureVoidBlockMixin",
+    "BarrierBlockMixin",
+    "ClientWorldMixin",
+    "ArmorStandEntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

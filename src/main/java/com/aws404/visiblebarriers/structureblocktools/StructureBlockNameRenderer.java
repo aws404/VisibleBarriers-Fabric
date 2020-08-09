@@ -1,4 +1,4 @@
-package com.aws404.visiblebarriers.tools;
+package com.aws404.visiblebarriers.structureblocktools;
 
 import com.aws404.visiblebarriers.mixin.InGameHudMixin;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;

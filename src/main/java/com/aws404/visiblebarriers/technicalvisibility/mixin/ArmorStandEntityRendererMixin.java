@@ -1,4 +1,4 @@
-package com.aws404.visiblebarriers.mixin;
+package com.aws404.visiblebarriers.technicalvisibility.mixin;
 
 import com.aws404.visiblebarriers.VisibleBarriers;
 import net.minecraft.client.render.RenderLayer;
@@ -19,7 +19,7 @@ public abstract class ArmorStandEntityRendererMixin {
 
     @Inject(method = "getRenderLayer", at = @At("HEAD"), cancellable = true)
     private void getRenderLayer(ArmorStandEntity armorStandEntity, boolean bl, boolean bl2, boolean b13, CallbackInfoReturnable<RenderLayer> i) {
-        if (VisibleBarriers.isShowingStands()) {
+        if (VisibleBarriers.isShowingBarriers()) {
             if (armorStandEntity.isMarker())
                 i.setReturnValue(RenderLayer.getEntityCutoutNoCull(MARKER_SKIN, false));
             else if (armorStandEntity.isInvisible())

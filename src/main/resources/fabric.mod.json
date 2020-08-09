@@ -23,7 +23,9 @@
     ]
   },
   "mixins": [
-    "visiblebarriers.mixins.json"
+    "visiblebarriers.mixins.json",
+    "structureblocktools.mixins.json",
+    "technicalvisibility.mixins.json"
   ],
 
   "depends": {

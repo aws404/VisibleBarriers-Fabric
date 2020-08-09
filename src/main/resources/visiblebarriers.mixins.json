@@ -6,14 +6,7 @@
   "mixins": [
   ],
   "client": [
-    "StructureVoidBlockMixin",
-    "BarrierBlockMixin",
-    "ClientWorldMixin",
-    "UpdateStructureBlockC2SPacketMixin",
-    "StructureBlockBlockEntityMixin",
-    "ScreenMixin",
     "ItemsMixin",
-    "ArmorStandEntityRendererMixin",
     "InGameHudMixin",
     "MinecraftClientMixin"
   ],
