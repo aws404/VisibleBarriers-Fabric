@@ -1,11 +1,9 @@
 {
-  "key.visiblebarriers.toggle": "Toggle Barrier Mode",
-  "key.visiblebarriers.stands": "Toggle Armor Stand Visibility",
+  "key.visiblebarriers.toggle": "Toggle Technical Visibility",
+  "key.visiblebarriers.device_screen": "Open Device Screen",
 
-  "toast.visiblebarriers.toggle.title": "Barrier Visibility",
-  "toast.visiblebarriers.toggle.desc": "Blocks are now: %s",
-  "toast.visiblebarriers.stands.title": "Invisible Armor Stands",
-  "toast.visiblebarriers.stands.desc": "Stands are now: %s",
+  "toast.visiblebarriers.toggle.title": "Technical Visibility Toggle",
+  "toast.visiblebarriers.toggle.desc": "Setting changed to: %s",
 
   "options.visiblebarriers.shown": "Visible",
   "options.visiblebarriers.hidden": "Hidden",

@@ -1,9 +1,10 @@
-package com.aws404.visiblebarriers.screens;
+package com.aws404.visiblebarriers.devicemenu;
 
 import com.aws404.visiblebarriers.util.ItemUtils;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.DiffuseLighting;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
@@ -28,40 +29,40 @@ public class WynnDeviceGUI extends Screen {
     protected void init() {
         for (int i = 0; i < FISH.size(); i++) {
             String name = FISH.get(i);
-            this.addButton(new ButtonWidget(this.width / 2 - 210, 70 + (i * 25), 80, 20, name, (buttonWidget) -> {
+            this.addButton(new ButtonWidget(this.width / 2 - 210, 70 + (i * 25), 80, 20, new LiteralText(name), (buttonWidget) -> {
                 this.getDevice(name);
             }));
         }
 
         for (int i = 0; i < ORES.size(); i++) {
             String name = ORES.get(i);
-            this.addButton(new ButtonWidget(this.width / 2 - 125, 70 + (i * 25), 80, 20, name, (buttonWidget) -> {
+            this.addButton(new ButtonWidget(this.width / 2 - 125, 70 + (i * 25), 80, 20, new LiteralText(name), (buttonWidget) -> {
                 this.chooseType(name);
             }));
         }
 
         for (int i = 0; i < LOGS.size(); i++) {
             String name = LOGS.get(i);
-            this.addButton(new ButtonWidget(this.width / 2 - 40, 70 + (i * 25), 80, 20, name, (buttonWidget) -> {
+            this.addButton(new ButtonWidget(this.width / 2 - 40, 70 + (i * 25), 80, 20, new LiteralText(name), (buttonWidget) -> {
                 this.chooseSize(name);
             }));
         }
 
         for (int i = 0; i < CROPS.size(); i++) {
             String name = CROPS.get(i);
-            this.addButton(new ButtonWidget(this.width / 2 + 45, 70 + (i * 25), 80, 20, name, (buttonWidget) -> {
+            this.addButton(new ButtonWidget(this.width / 2 + 45, 70 + (i * 25), 80, 20, new LiteralText(name), (buttonWidget) -> {
                 this.getDevice(name);
             }));
         }
 
         for (int i = 0; i < STATIONS.size(); i++) {
             String name = STATIONS.get(i);
-            this.addButton(new ButtonWidget(this.width / 2 + 130, 70 + (i * 25), 80, 20, name, (buttonWidget) -> {
+            this.addButton(new ButtonWidget(this.width / 2 + 130, 70 + (i * 25), 80, 20, new LiteralText(name), (buttonWidget) -> {
                 this.getCrafter(name);
             }));
         }
 
-        this.addButton(new ButtonWidget(this.width / 2 + 130, 345, 80, 20, "Guild Banner", (buttonWidget) -> {
+        this.addButton(new ButtonWidget(this.width / 2 + 130, 345, 80, 20, new LiteralText("Guild Banner"), (buttonWidget) -> {
             this.getGuildBanner();
         }));
 
@@ -69,11 +70,11 @@ public class WynnDeviceGUI extends Screen {
 
     private void getDevice(String type) {
         ItemUtils.givePlayerItemStack(ItemUtils.getCustomStructureBlock("device:gather:" + type, "SAVE"));
-        this.minecraft.openScreen((Screen) null);
+        this.client.openScreen((Screen) null);
     }
 
     private void getCrafter(String type) {
-        this.minecraft.openScreen((Screen) new RotationSelectorGUI("craft:" + type));
+        this.client.openScreen((Screen) new RotationSelectorGUI("craft:" + type));
     }
 
     private void getGuildBanner() {
@@ -100,26 +101,26 @@ public class WynnDeviceGUI extends Screen {
     }
 
     private void chooseType(String name) {
-        this.minecraft.openScreen(new OreTypeGUI(name));
+        this.client.openScreen(new OreTypeGUI(name));
     }
 
     private void chooseSize(String name) {
-        this.minecraft.openScreen(new SizeSelectorGUI(name));
+        this.client.openScreen(new SizeSelectorGUI(name));
     }
 
-    public void render(int mouseX, int mouseY, float delta) {
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         DiffuseLighting.disableGuiDepthLighting();
-        this.renderBackground();
-        this.drawCenteredString(this.font, this.title.asFormattedString(), this.width / 2, 30, 16777215);
+        this.renderBackground(matrices);
+        this.drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 30, 16777215);
 
-        this.drawCenteredString(this.font, "Fish", this.width / 2 - 170, 50, 16777215);
-        this.drawCenteredString(this.font, "Ores", this.width / 2 - 85, 50, 16777215);
-        this.drawCenteredString(this.font, "Logs", this.width / 2, 50, 16777215);
-        this.drawCenteredString(this.font, "Crops", this.width / 2 + 85, 50, 16777215);
-        this.drawCenteredString(this.font, "Stations", this.width / 2 + 170, 50, 16777215);
+        this.drawCenteredText(matrices, this.textRenderer, new LiteralText("Fish"), this.width / 2 - 170, 50, 16777215);
+        this.drawCenteredText(matrices, this.textRenderer, new LiteralText("Ores"), this.width / 2 - 85, 50, 16777215);
+        this.drawCenteredText(matrices, this.textRenderer, new LiteralText("Logs"), this.width / 2, 50, 16777215);
+        this.drawCenteredText(matrices, this.textRenderer, new LiteralText("Crops"), this.width / 2 + 85, 50, 16777215);
+        this.drawCenteredText(matrices, this.textRenderer, new LiteralText("Stations"), this.width / 2 + 170, 50, 16777215);
 
         DiffuseLighting.enableGuiDepthLighting();
-        super.render(mouseX, mouseY, delta);
+        super.render(matrices, mouseX, mouseY, delta);
     }
 
 }

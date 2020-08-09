@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.aws404.visiblebarriers.structureblocktools.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "UpdateStructureBlockC2SPacketMixin",
+    "StructureBlockBlockEntityMixin",
+    "StructureBlockBlockEntityRendererMixin",
+    "ScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

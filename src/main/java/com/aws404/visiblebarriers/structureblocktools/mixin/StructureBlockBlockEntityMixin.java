@@ -1,4 +1,4 @@
-package com.aws404.visiblebarriers.mixin;
+package com.aws404.visiblebarriers.structureblocktools.mixin;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -67,7 +67,7 @@ public abstract class StructureBlockBlockEntityMixin extends BlockEntity {
      * Changes max structure size from 32 to 64
      */
     @Inject(at = @At("RETURN"), method = "fromTag")
-    public void fromTag(CompoundTag tag, CallbackInfo info) {
+    public void fromTag(BlockState state, CompoundTag tag, CallbackInfo info) {
         int l = MathHelper.clamp(tag.getInt("sizeX"), 0, 64);
         int m = MathHelper.clamp(tag.getInt("sizeY"), 0, 64);
         int n = MathHelper.clamp(tag.getInt("sizeZ"), 0, 64);

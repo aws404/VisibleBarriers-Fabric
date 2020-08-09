@@ -1,4 +1,4 @@
-package com.aws404.visiblebarriers.mixin;
+package com.aws404.visiblebarriers.technicalvisibility.mixin;
 
 import com.aws404.visiblebarriers.VisibleBarriers;
 import net.minecraft.block.Block;

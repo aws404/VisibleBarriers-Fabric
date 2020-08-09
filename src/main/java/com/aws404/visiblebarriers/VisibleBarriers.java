@@ -1,6 +1,6 @@
 package com.aws404.visiblebarriers;
 
-import com.aws404.visiblebarriers.tools.StructureBlockNameRenderer;
+import com.aws404.visiblebarriers.structureblocktools.StructureBlockNameRenderer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.block.Blocks;
@@ -12,7 +12,6 @@ import net.minecraft.text.TranslatableText;
 public class VisibleBarriers implements ModInitializer {
 
 	private static boolean showingBarriers = false;
-	private static boolean showingStands = false;
 
 	@Override
 	public void onInitialize() {
@@ -39,17 +38,5 @@ public class VisibleBarriers implements ModInitializer {
 
 	public static boolean isShowingBarriers() {
 		return showingBarriers;
-	}
-
-	public static void toggleStandMode() {
-		// Set new value
-		showingStands = !showingStands;
-
-		// Sends the update toast message
-		SystemToast.show(MinecraftClient.getInstance().getToastManager(), SystemToast.Type.WORLD_BACKUP, new TranslatableText("toast.visiblebarriers.stands.title"), new TranslatableText("toast.visiblebarriers.stands.desc", showingStands ? new TranslatableText("options.visiblebarriers.shown") : new TranslatableText("options.visiblebarriers.hidden")));
-	}
-
-	public static boolean isShowingStands() {
-		return showingStands;
 	}
 }
