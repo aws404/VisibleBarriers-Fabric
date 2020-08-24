@@ -6,6 +6,8 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.StructureBlockBlockEntity;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.hit.BlockHitResult;
@@ -15,8 +17,8 @@ import net.minecraft.util.math.Vec3i;
 
 public class StructureBlockNameRenderer {
 
-    private static final String PLACEHOLDER_MESSAGE = "undefined";
-    private static String lastMessage = PLACEHOLDER_MESSAGE;
+    private static final Text PLACEHOLDER_MESSAGE = new LiteralText("undefined");
+    private static Text lastMessage = PLACEHOLDER_MESSAGE;
 
     private static final Vec3i[] OFFSETS = {
             new Vec3i(0,0,0),
@@ -34,7 +36,7 @@ public class StructureBlockNameRenderer {
                 return;
 
             // Get the ray trace from the camera
-            HitResult hitResult = client.getCameraEntity().rayTrace(40.0D, 0.0f, false);
+            HitResult hitResult = client.getCameraEntity().raycast(40.0D, 0.0f, false);
             if (hitResult.getType() == HitResult.Type.BLOCK) {
                 BlockPos targetedBlockPos = ((BlockHitResult)hitResult).getBlockPos();
 
@@ -57,12 +59,12 @@ public class StructureBlockNameRenderer {
 
                     // Ignore if name is blank
                     if (name != "" && name != null) {
-                        lastMessage = new TranslatableText("message.visiblebarriers.structure_name", name).formatted(Formatting.GOLD).asFormattedString();
+                        lastMessage = new TranslatableText("message.visiblebarriers.structure_name", name).formatted(Formatting.GOLD);
                         client.inGameHud.setOverlayMessage(lastMessage, false);
                     }
 
                 } else if (((InGameHudMixin) client.inGameHud).getOverlayMessage() != null && ((InGameHudMixin) client.inGameHud).getOverlayMessage().equals(lastMessage)) {
-                    client.inGameHud.setOverlayMessage("", false);
+                    client.inGameHud.setOverlayMessage(new LiteralText(""), false);
                     lastMessage = PLACEHOLDER_MESSAGE;
                 }
             }

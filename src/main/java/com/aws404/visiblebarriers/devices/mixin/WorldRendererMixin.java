@@ -4,7 +4,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
-import net.minecraft.client.util.math.Matrix4f;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.fluid.Fluid;
@@ -18,6 +17,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.profiler.Profiler;
 import org.spongepowered.asm.mixin.Mixin;
@@ -78,11 +78,11 @@ public abstract class WorldRendererMixin implements AutoCloseable, SynchronousRe
     /**
      * Handles the visuals of the fish placer
      */
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;pop()V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;checkEmpty(Lnet/minecraft/client/util/math/MatrixStack;)V", shift = At.Shift.AFTER, by = 2), locals = LocalCapture.CAPTURE_FAILSOFT)
     private void render(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, CallbackInfo ci, Profiler profiler, Vec3d vec3d, double camX, double camY, double camZ, Matrix4f matrix4f2, boolean bl, Frustum frustum2, boolean bl3, VertexConsumerProvider.Immediate immediate) {
         ItemStack item = client.player.inventory.getMainHandStack();
         if (item.getItem().equals(Blocks.STRUCTURE_BLOCK.asItem()) && item.getName().asString().contains(" Fish Placer")) {
-            HitResult rawRayTrace = client.getCameraEntity().rayTrace(10.0D, 0.0F, true);
+            HitResult rawRayTrace = client.getCameraEntity().raycast(10.0D, 0.0F, true);
             if (rawRayTrace.getType() == HitResult.Type.BLOCK) {
                 BlockPos pos = ((BlockHitResult) rawRayTrace).getBlockPos();
 

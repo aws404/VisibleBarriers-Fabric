@@ -32,7 +32,10 @@ public class ConfigManager {
         if (isInitialised)
             return;
 
+        System.out.println(CONFIG_FILE);
+
         setUpSettingsFile(false);
+
 
         BROKEN_STRUCTURE_BLOCK_BEAM = registerSetting("broken_structure_block_beam", true, null);
         TECHNICAL_VISIBILITY = registerSetting("technical_visibility", true, (value) -> {
