@@ -3,7 +3,7 @@
   "id": "visiblebarriers",
   "version": "${version}",
 
-  "name": "Visible Barriers",
+  "name": "VisibleBarriers",
   "description": "Various modifications to improve technical experience",
   "authors": [
     "aws404"
@@ -23,9 +23,11 @@
     ]
   },
   "mixins": [
-    "visiblebarriers.mixins.json",
-    "structureblocktools.mixins.json",
-    "technicalvisibility.mixins.json"
+    "visiblebarriers.json",
+    "structureblocktools.json",
+    "accessors.json",
+    "technicalvisibility.json",
+    "devices.json"
   ],
 
   "depends": {

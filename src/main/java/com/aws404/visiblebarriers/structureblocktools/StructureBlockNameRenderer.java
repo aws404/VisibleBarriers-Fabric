@@ -1,13 +1,11 @@
 package com.aws404.visiblebarriers.structureblocktools;
 
-import com.aws404.visiblebarriers.mixin.InGameHudMixin;
+import com.aws404.visiblebarriers.accessors.InGameHudMixin;
+import com.aws404.visiblebarriers.config.ConfigManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.StructureBlockBlockEntity;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.hit.BlockHitResult;
@@ -30,9 +28,9 @@ public class StructureBlockNameRenderer {
             new Vec3i(0,1,0),
     };
 
-    public StructureBlockNameRenderer() {
+    public static void start() {
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
-            if (client.world == null || client.player == null)
+            if (client.world == null || client.player == null || !ConfigManager.ACTIONBAR_STRUCTURE_BLOCK_NAME.getValue())
                 return;
 
             // Get the ray trace from the camera

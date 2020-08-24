@@ -1,14 +1,14 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.aws404.visiblebarriers.mixin",
+  "package": "com.aws404.visiblebarriers.accessors",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
   ],
   "client": [
-    "ItemsMixin",
     "InGameHudMixin",
-    "MinecraftClientMixin"
+    "MinecraftClientAccessor",
+    "GameRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

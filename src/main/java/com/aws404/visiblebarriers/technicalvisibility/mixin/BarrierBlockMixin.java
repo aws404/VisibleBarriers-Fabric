@@ -1,6 +1,6 @@
 package com.aws404.visiblebarriers.technicalvisibility.mixin;
 
-import com.aws404.visiblebarriers.VisibleBarriers;
+import com.aws404.visiblebarriers.config.ConfigManager;
 import net.minecraft.block.BarrierBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -33,7 +33,7 @@ public abstract class BarrierBlockMixin extends Block {
 	 */
 	@Override
 	public boolean isSideInvisible(BlockState state, BlockState neighbor, Direction facing) {
-		if (!VisibleBarriers.isShowingBarriers())
+		if (!ConfigManager.TECHNICAL_VISIBILITY.getValue())
 			return true;
 
 		return neighbor.getBlock() == this ? true : super.isSideInvisible(state, neighbor, facing);

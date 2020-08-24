@@ -37,7 +37,7 @@ public abstract class ItemsMixin {
 
         if (newGroup != null) {
             item = new BlockItem(block, (new Item.Settings()).group(newGroup));
-            register((Block) item.getBlock(), (Item) item);
+            register(item.getBlock(), item);
             info.cancel();
         }
     }

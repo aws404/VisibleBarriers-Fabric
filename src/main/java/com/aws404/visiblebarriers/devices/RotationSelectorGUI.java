@@ -1,34 +1,28 @@
-package com.aws404.visiblebarriers.devicemenu;
+package com.aws404.visiblebarriers.devices;
 
 import com.aws404.visiblebarriers.util.ItemUtils;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.DiffuseLighting;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class SizeSelectorGUI extends Screen {
+public class RotationSelectorGUI extends Screen {
 
-    private ArrayList<String> options = new ArrayList<String>();
+    private final List<String> OPTIONS = Arrays.asList("0", "90", "180", "270");
 
-    public SizeSelectorGUI(String device) {
-        super(new TranslatableText("menu.type.title", new Object[0]));
+    private String device = "";
 
-        options.add("Small" + device);
-        options.add("Medium" + device);
-        options.add("Large" + device);
-
-        if (device.contains("Oak") || device.contains("Jungle") || device.contains("Dark") || device.contains("Light")) {
-            options.add("Huge" + device);
-        }
+    public RotationSelectorGUI(String device) {
+        super(new TranslatableText("menu.rotation.title"));
+        this.device = device;
     }
 
     protected void init() {
-        for (int i = 0; i < options.size(); i++) {
-            String name = options.get(i);
+        for (int i = 0; i < OPTIONS.size(); i++) {
+            String name = OPTIONS.get(i);
             this.addButton(new ButtonWidget(this.width / 2 - 40, 70 + (i * 25), 80, 20, name, (buttonWidget) -> {
                 this.getDevice(name);
             }));
@@ -36,7 +30,7 @@ public class SizeSelectorGUI extends Screen {
     }
 
     private void getDevice(String option) {
-        ItemUtils.givePlayerItemStack(ItemUtils.getCustomStructureBlock("device:gather:" + option, "SAVE"));
+        ItemUtils.givePlayerItemStack(ItemUtils.getCustomStructureBlock("device:" + device + (option.equalsIgnoreCase("0") ? "" : ":" + option), "SAVE"));
         this.minecraft.openScreen((Screen) null);
     }
 

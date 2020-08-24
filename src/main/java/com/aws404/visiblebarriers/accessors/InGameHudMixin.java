@@ -1,7 +1,6 @@
-package com.aws404.visiblebarriers.mixin;
+package com.aws404.visiblebarriers.accessors;
 
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 

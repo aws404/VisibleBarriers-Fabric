@@ -1,6 +1,5 @@
 package com.aws404.visiblebarriers.structureblocktools.mixin;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.StructureBlockBlockEntity;
@@ -25,7 +24,6 @@ public abstract class StructureBlockBlockEntityMixin extends BlockEntity {
     private BlockPos size;
     @Shadow
     private Identifier structureName;
-
 
     public StructureBlockBlockEntityMixin(BlockEntityType<?> type) {
         super(type);
