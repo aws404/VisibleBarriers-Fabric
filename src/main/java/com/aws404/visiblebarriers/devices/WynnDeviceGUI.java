@@ -3,9 +3,12 @@ package com.aws404.visiblebarriers.devices;
 import com.aws404.visiblebarriers.util.ItemUtils;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.CommandBlockBlockEntity;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.DiffuseLighting;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 
 import java.util.Arrays;
@@ -26,28 +29,28 @@ public class WynnDeviceGUI extends Screen {
     protected void init() {
         for (int i = 0; i < FISH.size(); i++) {
             String name = FISH.get(i);
-            this.addButton(new ButtonWidget(this.width / 2 - 210, 70 + (i * 25), 80, 20, name, (buttonWidget) -> {
+            this.addButton(new ButtonWidget(this.width / 2 - 210, 70 + (i * 25), 80, 20, new LiteralText(name), (buttonWidget) -> {
                 getPlacer("Fish", name);
             }));
         }
 
         for (int i = 0; i < ORES.size(); i++) {
             String name = ORES.get(i);
-            this.addButton(new ButtonWidget(this.width / 2 - 125, 70 + (i * 25), 80, 20, name, (buttonWidget) -> {
+            this.addButton(new ButtonWidget(this.width / 2 - 125, 70 + (i * 25), 80, 20, new LiteralText(name), (buttonWidget) -> {
                 getPlacer("Ore", name);
             }));
         }
 
         for (int i = 0; i < LOGS.size(); i++) {
             String name = LOGS.get(i);
-            this.addButton(new ButtonWidget(this.width / 2 - 40, 70 + (i * 25), 80, 20, name, (buttonWidget) -> {
-                minecraft.openScreen(new SizeSelectorGUI(name));
+            this.addButton(new ButtonWidget(this.width / 2 - 40, 70 + (i * 25), 80, 20, new LiteralText(name), (buttonWidget) -> {
+                client.openScreen(new SizeSelectorGUI(name));
             }));
         }
 
         for (int i = 0; i < CROPS.size(); i++) {
             String name = CROPS.get(i);
-            this.addButton(new ButtonWidget(this.width / 2 + 45, 70 + (i * 25), 80, 20, name, (buttonWidget) -> {
+            this.addButton(new ButtonWidget(this.width / 2 + 45, 70 + (i * 25), 80, 20, new LiteralText(name), (buttonWidget) -> {
                 ItemUtils.givePlayerItemStack(ItemUtils.getCustomStructureBlock("device:gather:" + name, "SAVE"));
                 onClose();
             }));
@@ -55,12 +58,12 @@ public class WynnDeviceGUI extends Screen {
 
         for (int i = 0; i < STATIONS.size(); i++) {
             String name = STATIONS.get(i);
-            this.addButton(new ButtonWidget(this.width / 2 + 130, 70 + (i * 25), 80, 20, name, (buttonWidget) -> {
-                minecraft.openScreen(new RotationSelectorGUI("craft:" + name));
+            this.addButton(new ButtonWidget(this.width / 2 + 130, 70 + (i * 25), 80, 20, new LiteralText(name), (buttonWidget) -> {
+                client.openScreen(new RotationSelectorGUI("craft:" + name));
             }));
         }
 
-        this.addButton(new ButtonWidget(this.width / 2 + 130, 345, 80, 20, "Guild Banner", (buttonWidget) -> {
+        this.addButton(new ButtonWidget(this.width / 2 + 130, 345, 80, 20, new LiteralText("Guild Banner"), (buttonWidget) -> {
             ItemUtils.givePlayerItemStack(ItemUtils.getArmorStandDevice("Guild Banner Placer", "guildBanner"));
             onClose();
         }));
@@ -72,19 +75,19 @@ public class WynnDeviceGUI extends Screen {
         onClose();
     }
 
-    public void render(int mouseX, int mouseY, float delta) {
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float delta) {
         DiffuseLighting.disableGuiDepthLighting();
-        this.renderBackground();
-        this.drawCenteredString(this.font, this.title.asFormattedString(), this.width / 2, 30, 16777215);
+        this.renderBackground(matrixStack);
+        drawCenteredString(matrixStack, textRenderer, this.title.asString(), this.width / 2, 30, 16777215);
 
-        this.drawCenteredString(this.font, "Fish", this.width / 2 - 170, 50, 16777215);
-        this.drawCenteredString(this.font, "Ores", this.width / 2 - 85, 50, 16777215);
-        this.drawCenteredString(this.font, "Logs", this.width / 2, 50, 16777215);
-        this.drawCenteredString(this.font, "Crops", this.width / 2 + 85, 50, 16777215);
-        this.drawCenteredString(this.font, "Stations", this.width / 2 + 170, 50, 16777215);
+        drawCenteredString(matrixStack, textRenderer, "Fish", this.width / 2 - 170, 50, 16777215);
+        drawCenteredString(matrixStack, textRenderer, "Ores", this.width / 2 - 85, 50, 16777215);
+        drawCenteredString(matrixStack, textRenderer, "Logs", this.width / 2, 50, 16777215);
+        drawCenteredString(matrixStack, textRenderer, "Crops", this.width / 2 + 85, 50, 16777215);
+        drawCenteredString(matrixStack, textRenderer, "Stations", this.width / 2 + 170, 50, 16777215);
 
         DiffuseLighting.enableGuiDepthLighting();
-        super.render(mouseX, mouseY, delta);
+        super.render(matrixStack, mouseX, mouseY, delta);
     }
 
 }

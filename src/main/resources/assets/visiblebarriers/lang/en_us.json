@@ -14,21 +14,19 @@
   "setting.visiblebarriers.broken_structure_block_beam.true": "On",
   "setting.visiblebarriers.broken_structure_block_beam.false": "Off",
 
-  "setting.visiblebarriers.actionbar_structure_block_name": "Structure Name Actionbar",
-  "setting.visiblebarriers.actionbar_structure_block_name.true": "On",
-  "setting.visiblebarriers.actionbar_structure_block_name.false": "Off",
-
-  "setting.visiblebarriers.constant_structure_block_name": "Structure Name Renderer",
-  "setting.visiblebarriers.constant_structure_block_name.true": "Always",
-  "setting.visiblebarriers.constant_structure_block_name.false": "On Target",
-
   "setting.visiblebarriers.guild_banner_beam": "Guild Banner Beam",
   "setting.visiblebarriers.guild_banner_beam.true": "On",
   "setting.visiblebarriers.guild_banner_beam.false": "Off",
 
+  "setting.visiblebarriers.structure_block_name_display": "Structure Name Display",
+  "setting.visiblebarriers.loot_chest_highlight": "Highlight Loot Chests",
+  "setting.visiblebarriers.loot_chest_file_path": "Loot Chest File",
+
   "message.visiblebarriers.structure_name": "Structure Name: %s",
 
   "menu.settings.title": "Settings Menu",
+  "menu.settings.cycle": "Click to Cycle",
+  "menu.settings.command": "Use the command '/setting %s <value>' to set (click)",
 
   "menu.device.title": "Device Selector",
   "menu.type.title": "Select Type",

@@ -1,6 +1,7 @@
 package com.aws404.visiblebarriers.util;
 
 import com.aws404.visiblebarriers.accessors.MinecraftClientAccessor;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.StructureBlockBlockEntity;
 import net.minecraft.client.MinecraftClient;
@@ -85,7 +86,7 @@ public class ItemUtils {
 
         // Create structure block BlockEntity
         StructureBlockBlockEntity structureBlock = new StructureBlockBlockEntity();
-        structureBlock.fromTag(tag);
+        structureBlock.fromTag(Blocks.STRUCTURE_BLOCK.getDefaultState(), tag);
 
         // Create ItemStack
         ItemStack item = ((MinecraftClientAccessor) mc).invokeAddBlockEntityNbt(new ItemStack(Blocks.STRUCTURE_BLOCK), structureBlock);

@@ -31,11 +31,11 @@ public class KeyBindings {
                 return;
             
             while (TOGGLE_BARRIER_MODE.wasPressed()) {
-                ConfigManager.TECHNICAL_VISIBILITY.toggle();
+                ConfigManager.TECHNICAL_VISIBILITY.cycle();
             }
 
             while (TOGGLE_STRUCTURE_BLOCK_NAME.wasPressed()) {
-                ConfigManager.CONSTANT_STRUCTURE_BLOCK_NAME.toggle();
+                ConfigManager.STRUCTURE_BLOCK_NAME_DISPLAY.cycle();
             }
 
             while (OPEN_DEVICE_SCREEN.wasPressed()) {

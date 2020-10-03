@@ -27,13 +27,14 @@
     "structureblocktools.json",
     "accessors.json",
     "technicalvisibility.json",
-    "devices.json"
+    "devices.json",
+    "lootchests.json"
   ],
 
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": "*",
-    "minecraft": "1.15.x"
+    "minecraft": "1.16.x"
   },
   "suggests": {
     "flamingo": "*"

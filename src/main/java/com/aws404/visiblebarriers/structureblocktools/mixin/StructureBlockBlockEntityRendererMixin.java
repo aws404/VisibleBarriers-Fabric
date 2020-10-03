@@ -11,12 +11,12 @@ import net.minecraft.client.render.block.entity.BeaconBlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.StructureBlockBlockEntityRenderer;
-import net.minecraft.client.util.math.Matrix4f;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Matrix4f;
 import net.minecraft.world.GameMode;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -42,10 +42,10 @@ public abstract class StructureBlockBlockEntityRendererMixin extends BlockEntity
         String structure = structureBlockBlockEntity.getStructureName();
 
         // Structure block nameplate renderer
-        if (!structure.isEmpty() && (client.interactionManager.getCurrentGameMode() == GameMode.CREATIVE || client.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR)) {
-            if (ConfigManager.CONSTANT_STRUCTURE_BLOCK_NAME.getValue()) {
+        if (!structure.isEmpty()) {
+            if (ConfigManager.STRUCTURE_BLOCK_NAME_DISPLAY.getValue().constant) {
                 renderLabel(structureBlockBlockEntity.getStructureName(), matrixStack, vertexConsumerProvider);
-            } else if (client.crosshairTarget.getType().equals(HitResult.Type.BLOCK)) {
+            } else if (ConfigManager.STRUCTURE_BLOCK_NAME_DISPLAY.getValue().onTarget && client.crosshairTarget.getType().equals(HitResult.Type.BLOCK)) {
                 BlockHitResult blockHitResult = (BlockHitResult)client.crosshairTarget;
                 if (blockHitResult.getBlockPos().equals(structureBlockBlockEntity.getPos())) {
                     renderLabel(structureBlockBlockEntity.getStructureName(), matrixStack, vertexConsumerProvider);
@@ -72,7 +72,7 @@ public abstract class StructureBlockBlockEntityRendererMixin extends BlockEntity
         int backgroundColor = (int)(client.options.getTextBackgroundOpacity(0.25F) * 255.0F) << 24;
 
         TextRenderer textRenderer = client.textRenderer;
-        float stringWidth = (float)(-textRenderer.getStringWidth(string) / 2);
+        float stringWidth = (float)(-textRenderer.getWidth(string) / 2);
         textRenderer.draw(string, stringWidth, 0, 553648127, false, matrix4f, vertexConsumerProvider, false, backgroundColor, 15728880);
         textRenderer.draw(string, stringWidth, 0, -1, false, matrix4f, vertexConsumerProvider, false, 0, 15728880);
 

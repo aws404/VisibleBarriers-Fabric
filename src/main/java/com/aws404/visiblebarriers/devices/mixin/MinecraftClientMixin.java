@@ -4,11 +4,13 @@ import com.aws404.visiblebarriers.util.ItemUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -49,8 +51,8 @@ public abstract class MinecraftClientMixin {
                 if (!block.getBlock().equals(Blocks.SEA_LANTERN)) {
                     // Sets titles (takes 3 functions because minecrafts title system is weird)
                     instance.inGameHud.setTitles(null, null, 5, 10, 5);
-                    instance.inGameHud.setTitles(null, Formatting.RED + "Missing Sea Lantern", -1, -1, -1);
-                    instance.inGameHud.setTitles("",null, -1, -1, -1);
+                    instance.inGameHud.setTitles(null, new LiteralText("Missing Sea Lantern").formatted(Formatting.RED), -1, -1, -1);
+                    instance.inGameHud.setTitles(new LiteralText(""),null, -1, -1, -1);
                     ci.cancel();
                 }
             }
@@ -84,7 +86,7 @@ public abstract class MinecraftClientMixin {
 
             // Fish Placer
             if (item.getName().asString().contains(" Fish Placer")) {
-                HitResult rawRayTrace = instance.getCameraEntity().rayTrace(10.0D, 0.0F, true);
+                HitResult rawRayTrace = instance.getCameraEntity().raycast(10.0D, 0.0F, true);
                 if (rawRayTrace.getType() == HitResult.Type.BLOCK) {
                     BlockPos pos = ((BlockHitResult) rawRayTrace).getBlockPos();
                     Fluid fluid = instance.world.getFluidState(pos).getFluid();
@@ -114,12 +116,12 @@ public abstract class MinecraftClientMixin {
             ItemStack itemStack = instance.player.getMainHandStack();
             // Send to server
             BlockPos severPos = placementPos.add(0 , inWater ? 1 : 0, 0);
-            instance.getNetworkHandler().sendPacket(new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, new BlockHitResult(new Vec3d(severPos), Direction.DOWN, severPos, false)));
+            instance.getNetworkHandler().sendPacket(new PlayerInteractBlockC2SPacket(Hand.MAIN_HAND, new BlockHitResult(new Vec3d(severPos.getX(), severPos.getY(), severPos.getZ()), Direction.DOWN, severPos, false)));
 
             int i = itemStack.getCount();
 
             // Place on client
-            itemStack.useOnBlock(new ItemUsageContext(instance.player, Hand.MAIN_HAND, new BlockHitResult(new Vec3d(placementPos), Direction.DOWN, placementPos, false)));
+            itemStack.useOnBlock(new ItemUsageContext(instance.player, Hand.MAIN_HAND, new BlockHitResult(new Vec3d(placementPos.getX(), placementPos.getY(), placementPos.getZ()), Direction.DOWN, placementPos, false)));
             itemStack.setCount(i);
         }
     }
