@@ -42,10 +42,10 @@ public abstract class StructureBlockBlockEntityRendererMixin extends BlockEntity
         String structure = structureBlockBlockEntity.getStructureName();
 
         // Structure block nameplate renderer
-        if (!structure.isEmpty() && (client.interactionManager.getCurrentGameMode() == GameMode.CREATIVE || client.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR)) {
-            if (ConfigManager.CONSTANT_STRUCTURE_BLOCK_NAME.getValue()) {
+        if (!structure.isEmpty()) {
+            if (ConfigManager.STRUCTURE_BLOCK_NAME_DISPLAY.getValue().constant) {
                 renderLabel(structureBlockBlockEntity.getStructureName(), matrixStack, vertexConsumerProvider);
-            } else if (client.crosshairTarget.getType().equals(HitResult.Type.BLOCK)) {
+            } else if (ConfigManager.STRUCTURE_BLOCK_NAME_DISPLAY.getValue().onTarget && client.crosshairTarget.getType().equals(HitResult.Type.BLOCK)) {
                 BlockHitResult blockHitResult = (BlockHitResult)client.crosshairTarget;
                 if (blockHitResult.getBlockPos().equals(structureBlockBlockEntity.getPos())) {
                     renderLabel(structureBlockBlockEntity.getStructureName(), matrixStack, vertexConsumerProvider);

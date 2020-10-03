@@ -1,7 +1,16 @@
 package com.aws404.visiblebarriers.config;
 
+import com.aws404.visiblebarriers.config.enums.LootChestBeam;
+import com.aws404.visiblebarriers.config.enums.StructureBlockNameDisplay;
+import com.aws404.visiblebarriers.config.types.BaseConfigEntry;
+import com.aws404.visiblebarriers.config.types.BooleanConfigEntry;
+import com.aws404.visiblebarriers.config.types.EnumConfigEntry;
+import com.aws404.visiblebarriers.config.types.StringConfigEntry;
+import com.aws404.visiblebarriers.lootchests.LootChestManager;
 import com.google.gson.Gson;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.LiteralText;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,34 +26,44 @@ public class ConfigManager {
 
     private static boolean isInitialised = false;
 
-    public static final HashMap<String, ConfigEntry> SETTINGS = new HashMap<String, ConfigEntry>();
-    private static Map<String, Boolean> settingsFile = new HashMap<>();
+    public static final HashMap<String, BaseConfigEntry<?>> SETTINGS = new HashMap<>();
+    private static Map<String, String> settingsFile = new HashMap<>();
 
     private static final File CONFIG_FILE = new File(client.runDirectory.getPath(), "config/visiblebarriers.json");
+    public static final File DEFAULT_LOOT_CHEST_FILE = new File(FabricLoader.getInstance().getConfigDir().toFile(), "chests.yml");
 
-    public static ConfigEntry BROKEN_STRUCTURE_BLOCK_BEAM;
-    public static ConfigEntry TECHNICAL_VISIBILITY;
-    public static ConfigEntry ACTIONBAR_STRUCTURE_BLOCK_NAME;
-    public static ConfigEntry CONSTANT_STRUCTURE_BLOCK_NAME;
-    public static ConfigEntry GUILD_BANNER_BEAM;
+    public static BooleanConfigEntry BROKEN_STRUCTURE_BLOCK_BEAM;
+    public static BooleanConfigEntry TECHNICAL_VISIBILITY;
+    public static BooleanConfigEntry GUILD_BANNER_BEAM;
+
+    public static EnumConfigEntry<LootChestBeam> LOOT_CHEST_BEAM;
+    public static EnumConfigEntry<StructureBlockNameDisplay> STRUCTURE_BLOCK_NAME_DISPLAY;
+
+    public static StringConfigEntry LOOT_CHEST_FILE_PATH;
 
     public static void start() {
         if (isInitialised)
             return;
 
-        System.out.println(CONFIG_FILE);
-
         setUpSettingsFile(false);
 
-
-        BROKEN_STRUCTURE_BLOCK_BEAM = registerSetting("broken_structure_block_beam", true, null);
-        TECHNICAL_VISIBILITY = registerSetting("technical_visibility", true, (value) -> {
+        BROKEN_STRUCTURE_BLOCK_BEAM = registerBooleanSetting("broken_structure_block_beam", true, null);
+        TECHNICAL_VISIBILITY = registerBooleanSetting("technical_visibility", true, (value) -> {
             // Reload chunks
             client.worldRenderer.reload();
         });
-        ACTIONBAR_STRUCTURE_BLOCK_NAME = registerSetting("actionbar_structure_block_name", true,  null);
-        CONSTANT_STRUCTURE_BLOCK_NAME = registerSetting("constant_structure_block_name", true, null);
-        GUILD_BANNER_BEAM = registerSetting("guild_banner_beam", true, null);
+        GUILD_BANNER_BEAM = registerBooleanSetting("guild_banner_beam", true, null);
+        LOOT_CHEST_BEAM = registerEnumSetting("loot_chest_highlight", LootChestBeam.NONE, true, null);
+        STRUCTURE_BLOCK_NAME_DISPLAY = registerEnumSetting("structure_block_name_display", StructureBlockNameDisplay.NONE, true, null);
+
+        LOOT_CHEST_FILE_PATH = registerStringSetting("loot_chest_file_path", DEFAULT_LOOT_CHEST_FILE.getAbsolutePath(), value -> {
+            LootChestManager.LOOT_CHEST_FILE = new File(value);
+            try {
+                LootChestManager.reloadLootChests();
+            } catch (IOException e) {
+                client.player.sendMessage(new LiteralText("Error parsing the loot chest file!"), false);
+            }
+        });
 
         saveSettingsFile();
 
@@ -57,12 +76,55 @@ public class ConfigManager {
      * @param requiresCreative if this is true, the value of the setting will be allways false if the player is not creative/spectator
      * @param callback a callback for when the setting is changes
      */
-    private static ConfigEntry registerSetting(String name, boolean requiresCreative, ConfigEntry.ConfigEntryCallbackChange callback) {
+    private static BooleanConfigEntry registerBooleanSetting(String name, boolean requiresCreative, BaseConfigEntry.ConfigEntryCallbackChange<Boolean> callback) {
         if (!settingsFile.containsKey(name)) {
-            settingsFile.put(name, false);
+            settingsFile.put(name, "false");
         }
 
-        ConfigEntry entry = new ConfigEntry(name, settingsFile.get(name), requiresCreative, callback);
+        BooleanConfigEntry entry;
+        try {
+            entry = new BooleanConfigEntry(name, Boolean.parseBoolean(settingsFile.get(name)), requiresCreative, callback);
+        } catch (ClassCastException e) {
+            entry = new BooleanConfigEntry(name, false, requiresCreative, callback);
+        }
+        SETTINGS.put(name, entry);
+
+        return entry;
+    }
+
+    /**
+     * Registers a setting
+     */
+    private static <T extends Enum<T>> EnumConfigEntry<T> registerEnumSetting(String name, T defaultValue, boolean requiresCreative, BaseConfigEntry.ConfigEntryCallbackChange<T> callback) {
+        if (!settingsFile.containsKey(name)) {
+            settingsFile.put(name, defaultValue.name());
+        }
+
+        EnumConfigEntry<T> entry;
+        try {
+            entry = new EnumConfigEntry<>(name, T.valueOf(defaultValue.getDeclaringClass(), settingsFile.get(name)), requiresCreative, callback);
+        } catch (ClassCastException e) {
+            entry = new EnumConfigEntry<>(name, defaultValue, requiresCreative, callback);
+        }
+        SETTINGS.put(name, entry);
+
+        return entry;
+    }
+
+    /**
+     * Registers a setting
+     */
+    private static StringConfigEntry registerStringSetting(String name, String defaultValue, BaseConfigEntry.ConfigEntryCallbackChange<String> callback) {
+        if (!settingsFile.containsKey(name)) {
+            settingsFile.put(name, defaultValue);
+        }
+
+        StringConfigEntry entry;
+        try {
+            entry = new StringConfigEntry(name, settingsFile.get(name), callback);
+        } catch (ClassCastException e) {
+            entry = new StringConfigEntry(name, defaultValue, callback);
+        }
         SETTINGS.put(name, entry);
 
         return entry;
@@ -94,8 +156,8 @@ public class ConfigManager {
 
     public static void saveSettingsFile() {
         settingsFile.clear();
-        for (ConfigEntry entry : SETTINGS.values()) {
-            settingsFile.put(entry.name, entry.value);
+        for (BaseConfigEntry<?> entry : SETTINGS.values()) {
+            settingsFile.put(entry.name, entry.getRawValue().toString());
         }
 
         try {

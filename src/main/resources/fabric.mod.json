@@ -27,7 +27,8 @@
     "structureblocktools.json",
     "accessors.json",
     "technicalvisibility.json",
-    "devices.json"
+    "devices.json",
+    "lootchests.json"
   ],
 
   "depends": {

@@ -32,7 +32,7 @@ public class StructureBlockNameRenderer {
 
     public static void start() {
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
-            if (client.world == null || client.player == null || !ConfigManager.ACTIONBAR_STRUCTURE_BLOCK_NAME.getValue())
+            if (client.world == null || client.player == null || !ConfigManager.STRUCTURE_BLOCK_NAME_DISPLAY.getValue().actionbar)
                 return;
 
             // Get the ray trace from the camera
