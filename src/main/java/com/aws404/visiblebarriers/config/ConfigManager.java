@@ -61,7 +61,7 @@ public class ConfigManager {
             try {
                 LootChestManager.reloadLootChests();
             } catch (IOException e) {
-                client.player.sendMessage(new LiteralText("Error parsing the loot chest file!"), false);
+                client.player.sendMessage(new LiteralText("Error parsing the loot chest file!"));
             }
         });
 

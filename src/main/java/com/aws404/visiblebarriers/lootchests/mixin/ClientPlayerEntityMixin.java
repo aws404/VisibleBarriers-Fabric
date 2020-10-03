@@ -20,7 +20,7 @@ import java.io.IOException;
 @Mixin(ClientPlayerEntity.class)
 public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
 
-    @Shadow public abstract void sendMessage(Text message, boolean actionBar);
+    @Shadow public abstract void sendMessage(Text message);
 
     public ClientPlayerEntityMixin(ClientWorld world, GameProfile profile) {
         super(world, profile);
@@ -31,9 +31,9 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         if (message.startsWith("/reloadchests")) {
             try {
                 LootChestManager.reloadLootChests();
-                sendMessage(new LiteralText("Loot chest file loaded!"), false);
+                sendMessage(new LiteralText("Loot chest file loaded!"));
             } catch (IOException e) {
-                sendMessage(new LiteralText("Error parsing loot chest file!"), false);
+                sendMessage(new LiteralText("Error parsing loot chest file!"));
             }
             ci.cancel();
         }
