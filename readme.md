@@ -12,7 +12,7 @@ The default toggle keybinds are:
 ## Installation
 1. Download and install Fabric: https://fabricmc.net/
 2. Download the Fabric API: https://www.curseforge.com/minecraft/mc-mods/fabric-api
-2. Download the mod file from [here (1.15.2)](./VisibleBarriersMod-1.4.0.jar) or [here (1.16.2)](../1.16a/VisibleBarriersMod-1.4.0.jar)
+2. Download the mod file from [here (1.15.2)](./VisibleBarriersMod-1.4.1.jar) or [here (1.16.2)](../1.16a/VisibleBarriersMod-1.4.1.jar)
 3. Place both files in the mods folder for your profile (default: %appdata%/.minecraft/mods)
 
 

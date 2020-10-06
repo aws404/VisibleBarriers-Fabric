@@ -4,9 +4,12 @@
   "package": "com.aws404.visiblebarriers.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "ClientChunkManagerMixin",
   ],
   "client": [
-    "ItemsMixin"
+    "ClientPlayNetworkHandlerMixin",
+    "ItemsMixin",
+    "RenderPhaseAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

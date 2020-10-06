@@ -30,6 +30,10 @@ dependencies {
 	// You may need to force-disable transitiveness on them.
 }
 
+minecraft {
+	accessWidener "src/main/resources/visiblebarriers.accesswidener"
+}
+
 processResources {
 	inputs.property "version", project.version
 

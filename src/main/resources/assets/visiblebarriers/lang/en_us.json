@@ -20,6 +20,7 @@
 
   "setting.visiblebarriers.structure_block_name_display": "Structure Name Display",
   "setting.visiblebarriers.loot_chest_highlight": "Highlight Loot Chests",
+  "setting.visiblebarriers.loot_chest_beam": "Loot Chest Beam",
   "setting.visiblebarriers.loot_chest_file_path": "Loot Chest File",
 
   "message.visiblebarriers.structure_name": "Structure Name: %s",

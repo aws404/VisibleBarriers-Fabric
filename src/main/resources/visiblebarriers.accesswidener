@@ -1,0 +1,11 @@
+accessWidener	v1	named
+
+# Used for fixing the chunk unloading
+accessible    class    net/minecraft/client/world/ClientChunkManager$ClientChunkMap
+accessible   method   net/minecraft/client/world/ClientChunkManager$ClientChunkMap   isInRadius   (II)Z
+accessible   field   net/minecraft/client/world/ClientChunkManager$ClientChunkMap   radius   I
+#accessible   method   net/minecraft/client/world/ClientChunkManager$ClientChunkMap   compareAndSet   (ILnet/minecraft/world/chunk/WorldChunk;Lnet/minecraft/world/chunk/WorldChunk;)Lnet/minecraft/world/chunk/WorldChunk;
+accessible   method   net/minecraft/client/world/ClientChunkManager$ClientChunkMap   set   (ILnet/minecraft/world/chunk/WorldChunk;)V
+accessible   field   net/minecraft/client/world/ClientChunkManager$ClientChunkMap   chunks   Ljava/util/concurrent/atomic/AtomicReferenceArray;
+
+accessible    class    net/minecraft/client/world/client/render/WorldRenderer$ChunkInfo
