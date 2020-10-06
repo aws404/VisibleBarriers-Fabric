@@ -32,25 +32,25 @@ public class SettingsMenu extends Screen {
     }
 
     public void makeSettingsButton(BaseConfigEntry<?> entry, int y) {
-        AbstractButtonWidget button = new ButtonWidget(this.width / 2 - 150, y, 300, 20, entry.getMenuText().asFormattedString(), (buttonWidget) -> {
+        AbstractButtonWidget button = new ButtonWidget(this.width / 2 - 150, y, 300, 20, entry.getMenuText(), (buttonWidget) -> {
             entry.cycle();
             init();
         });
-        button.active = !entry.requiresCreative || minecraft.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR || minecraft.interactionManager.getCurrentGameMode() == GameMode.CREATIVE;
+        button.active = !entry.requiresCreative || client.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR || client.interactionManager.getCurrentGameMode() == GameMode.CREATIVE;
         buttons.put(entry, button);
         children.add(button);
     }
 
-    public void render(int mouseX, int mouseY, float delta) {
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float delta) {
         DiffuseLighting.disableGuiDepthLighting();
-        this.renderBackground();
-        drawCenteredString(this.font, this.title.asString(), this.width / 2, 50, 16777215);
+        this.renderBackground(matrixStack);
+        drawCenteredString(matrixStack, textRenderer, this.title.asString(), this.width / 2, 50, 16777215);
 
         for (Map.Entry<BaseConfigEntry<?>, AbstractButtonWidget> entry : buttons.entrySet()) {
-            entry.getValue().render(mouseX, mouseY, delta);
+            entry.getValue().render(matrixStack, mouseX, mouseY, delta);
             if (entry.getValue().isHovered()) {
                 Text hoverText = entry.getValue().active ? entry.getKey().getMenuHoverText() : new LiteralText("This feature requires creative or spectator mode");
-                renderTooltip(hoverText.asFormattedString(), mouseX, mouseY);
+                renderTooltip(matrixStack, hoverText, mouseX, mouseY);
             }
         }
     }

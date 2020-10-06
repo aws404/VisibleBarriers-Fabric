@@ -1,13 +1,12 @@
 package com.aws404.visiblebarriers.mixin;
 
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderPhase;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(RenderPhase.class)
 public interface RenderPhaseAccessor {
-    @Accessor("PROJECTION_LAYERING")
+    @Accessor("VIEW_OFFSET_Z_LAYERING")
     static RenderPhase.Layering getProjectionLayering() {
         return null;
     }

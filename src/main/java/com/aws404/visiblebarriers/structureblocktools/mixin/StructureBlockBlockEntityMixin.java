@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.StructureBlockBlockEntity;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -66,7 +67,7 @@ public abstract class StructureBlockBlockEntityMixin extends BlockEntity {
      * Changes max structure size from 32 to 64
      */
     @Inject(at = @At("RETURN"), method = "fromTag")
-    public void fromTag(CompoundTag tag, CallbackInfo info) {
+    public void fromTag(BlockState state, CompoundTag tag, CallbackInfo ci) {
         int l = MathHelper.clamp(tag.getInt("sizeX"), 0, 64);
         int m = MathHelper.clamp(tag.getInt("sizeY"), 0, 64);
         int n = MathHelper.clamp(tag.getInt("sizeZ"), 0, 64);

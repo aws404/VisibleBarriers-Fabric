@@ -26,7 +26,7 @@ public class RotationSelectorGUI extends Screen {
     protected void init() {
         for (int i = 0; i < OPTIONS.size(); i++) {
             String name = OPTIONS.get(i);
-            this.addButton(new ButtonWidget(this.width / 2 - 40, 70 + (i * 25), 80, 20, name, (buttonWidget) -> {
+            this.addButton(new ButtonWidget(this.width / 2 - 40, 70 + (i * 25), 80, 20, new LiteralText(name), (buttonWidget) -> {
                 this.getDevice(name);
             }));
         }
@@ -34,15 +34,15 @@ public class RotationSelectorGUI extends Screen {
 
     private void getDevice(String option) {
         ItemUtils.givePlayerItemStack(ItemUtils.getCustomStructureBlock("device:" + device + (option.equalsIgnoreCase("0") ? "" : ":" + option), "SAVE"));
-        this.minecraft.openScreen(null);
+        this.client.openScreen(null);
     }
 
-    public void render(int mouseX, int mouseY, float delta) {
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float delta) {
         DiffuseLighting.disableGuiDepthLighting();
-        this.renderBackground();
-        drawCenteredString(this.font, this.title.asString(), this.width / 2, 30, 16777215);
+        this.renderBackground(matrixStack);
+        drawCenteredString(matrixStack, textRenderer, this.title.asString(), this.width / 2, 30, 16777215);
 
         DiffuseLighting.enableGuiDepthLighting();
-        super.render(mouseX, mouseY, delta);
+        super.render(matrixStack, mouseX, mouseY, delta);
     }
 }

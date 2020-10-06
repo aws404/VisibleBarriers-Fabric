@@ -9,6 +9,6 @@ public class VersionUtils {
     private static final MinecraftClient client = MinecraftClient.getInstance();
 
     public static void sendMessage(String message) {
-        client.inGameHud.addChatMessage(MessageType.CHAT, new LiteralText(message));
+        client.player.sendMessage(new LiteralText(message), false);
     }
 }
