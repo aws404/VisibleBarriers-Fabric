@@ -2,6 +2,7 @@ package com.aws404.visiblebarriers.lootchests.mixin;
 
 import com.aws404.visiblebarriers.config.ConfigManager;
 import com.aws404.visiblebarriers.lootchests.LootChestManager;
+import com.aws404.visiblebarriers.util.VersionUtils;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -20,8 +21,6 @@ import java.io.IOException;
 @Mixin(ClientPlayerEntity.class)
 public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
 
-    @Shadow public abstract void sendMessage(Text message, boolean actionBar);
-
     public ClientPlayerEntityMixin(ClientWorld world, GameProfile profile) {
         super(world, profile);
     }
@@ -31,9 +30,9 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         if (message.startsWith("/reloadchests")) {
             try {
                 LootChestManager.reloadLootChests();
-                sendMessage(new LiteralText("Loot chest file loaded!"), false);
+                VersionUtils.sendMessage("Loot chest file loaded!");
             } catch (IOException e) {
-                sendMessage(new LiteralText("Error parsing loot chest file!"), false);
+                VersionUtils.sendMessage("Error parsing loot chest file!");
             }
             ci.cancel();
         }

@@ -32,25 +32,25 @@ public class SettingsMenu extends Screen {
     }
 
     public void makeSettingsButton(BaseConfigEntry<?> entry, int y) {
-        AbstractButtonWidget button = new ButtonWidget(this.width / 2 - 150, y, 300, 20, entry.getMenuText(), (buttonWidget) -> {
+        AbstractButtonWidget button = new ButtonWidget(this.width / 2 - 150, y, 300, 20, entry.getMenuText().asFormattedString(), (buttonWidget) -> {
             entry.cycle();
             init();
         });
-        button.active = !entry.requiresCreative || client.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR || client.interactionManager.getCurrentGameMode() == GameMode.CREATIVE;
+        button.active = !entry.requiresCreative || minecraft.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR || minecraft.interactionManager.getCurrentGameMode() == GameMode.CREATIVE;
         buttons.put(entry, button);
-        addChild(button);
+        children.add(button);
     }
 
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(int mouseX, int mouseY, float delta) {
         DiffuseLighting.disableGuiDepthLighting();
-        this.renderBackground(matrices);
-        drawCenteredString(matrices, this.textRenderer, this.title.asString(), this.width / 2, 50, 16777215);
+        this.renderBackground();
+        drawCenteredString(this.font, this.title.asString(), this.width / 2, 50, 16777215);
 
         for (Map.Entry<BaseConfigEntry<?>, AbstractButtonWidget> entry : buttons.entrySet()) {
-            entry.getValue().render(matrices, mouseX, mouseY, delta);
+            entry.getValue().render(mouseX, mouseY, delta);
             if (entry.getValue().isHovered()) {
                 Text hoverText = entry.getValue().active ? entry.getKey().getMenuHoverText() : new LiteralText("This feature requires creative or spectator mode");
-                renderTooltip(matrices, hoverText, mouseX, mouseY);
+                renderTooltip(hoverText.asFormattedString(), mouseX, mouseY);
             }
         }
     }

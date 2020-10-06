@@ -36,7 +36,7 @@ public class StructureBlockNameRenderer {
                 return;
 
             // Get the ray trace from the camera
-            HitResult hitResult = client.getCameraEntity().raycast(40.0D, 0.0f, false);
+            HitResult hitResult = client.getCameraEntity().rayTrace(40.0D, 0.0f, false);
             if (hitResult.getType() == HitResult.Type.BLOCK) {
                 BlockPos targetedBlockPos = ((BlockHitResult)hitResult).getBlockPos();
 

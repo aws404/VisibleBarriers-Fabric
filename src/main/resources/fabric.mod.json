@@ -23,18 +23,20 @@
     ]
   },
   "mixins": [
-    "visiblebarriers.json",
-    "structureblocktools.json",
-    "accessors.json",
-    "technicalvisibility.json",
-    "devices.json",
-    "lootchests.json"
+    "visiblebarriers.mixin.json",
+    "structureblocktools.mixin.json",
+    "accessors.mixin.json",
+    "technicalvisibility.mixin.json",
+    "devices.mixin.json",
+    "lootchests.mixin.json"
   ],
+
+  "accessWidener" : "visiblebarriers.accesswidener",
 
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": "*",
-    "minecraft": "1.16.x"
+    "minecraft": "1.15.x"
   },
   "suggests": {
     "flamingo": "*"

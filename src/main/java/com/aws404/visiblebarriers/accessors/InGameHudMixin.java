@@ -11,5 +11,5 @@ public interface InGameHudMixin {
      * Allows access to the overlayMessage variable
      */
     @Accessor("overlayMessage")
-    Text getOverlayMessage();
+    String getOverlayMessage();
 }

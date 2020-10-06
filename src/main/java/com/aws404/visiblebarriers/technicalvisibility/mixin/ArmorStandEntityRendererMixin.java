@@ -54,12 +54,12 @@ public abstract class ArmorStandEntityRendererMixin extends LivingEntityRenderer
      * Invisible and marker visibility renderer
      */
     @Inject(method = "getRenderLayer", at = @At("HEAD"), cancellable = true)
-    private void getRenderLayer(ArmorStandEntity armorStandEntity, boolean bl, boolean bl2, boolean b13, CallbackInfoReturnable<RenderLayer> i) {
+    private void getRenderLayer(ArmorStandEntity armorStandEntity, boolean bl, boolean bl2, CallbackInfoReturnable<RenderLayer> cir) {
        if (ConfigManager.TECHNICAL_VISIBILITY.getValue()) {
            if (armorStandEntity.isMarker())
-               i.setReturnValue(RenderLayer.getEntityCutoutNoCull(MARKER_SKIN));
+               cir.setReturnValue(RenderLayer.getEntityCutoutNoCull(MARKER_SKIN));
            else if (armorStandEntity.isInvisible())
-               i.setReturnValue(RenderLayer.getEntityCutoutNoCull(INVISIBLE_SKIN));
+               cir.setReturnValue(RenderLayer.getEntityCutoutNoCull(INVISIBLE_SKIN));
        }
     }
 
