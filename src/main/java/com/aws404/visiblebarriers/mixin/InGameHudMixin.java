@@ -1,4 +1,4 @@
-package com.aws404.visiblebarriers.accessors;
+package com.aws404.visiblebarriers.mixin;
 
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.text.Text;

@@ -4,7 +4,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.StructureBlockBlockEntity;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -52,7 +51,7 @@ public abstract class StructureBlockBlockEntityMixin extends BlockEntity {
      */
     @Inject(at = @At("HEAD"), method = "hasStructureName", cancellable = true)
     public void hasStructureName(CallbackInfoReturnable<Boolean> info) {
-        info.setReturnValue(this.structureName != null && this.rawStructureName == "");
+        info.setReturnValue(this.structureName != null && this.rawStructureName.equals(""));
     }
 
     /**

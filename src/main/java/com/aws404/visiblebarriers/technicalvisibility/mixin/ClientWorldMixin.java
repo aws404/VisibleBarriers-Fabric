@@ -1,6 +1,6 @@
 package com.aws404.visiblebarriers.technicalvisibility.mixin;
 
-import com.aws404.visiblebarriers.config.ConfigManager;
+import com.aws404.visiblebarriers.config.categories.TechnicalVisibilityConfigCategory;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
@@ -30,7 +30,8 @@ public abstract class ClientWorldMixin {
         Random random = new Random();
         boolean showBarrierParticles =
                 client.interactionManager.getCurrentGameMode() == GameMode.CREATIVE
-                && !ConfigManager.TECHNICAL_VISIBILITY.getValue()
+                && !TechnicalVisibilityConfigCategory.SHOW_BARRIERS.getValue()
+                && !TechnicalVisibilityConfigCategory.MASTER_SWITCH.getValue()
                 && (this.client.player.inventory.getMainHandStack().getItem() == Item.fromBlock(Blocks.BARRIER) || this.client.player.inventory.offHand.get(0).getItem() == Item.fromBlock(Blocks.BARRIER));
 
         BlockPos.Mutable mutable = new BlockPos.Mutable();

@@ -1,7 +1,8 @@
 package com.aws404.visiblebarriers.structureblocktools.mixin;
 
-import com.aws404.visiblebarriers.accessors.GameRendererMixin;
-import com.aws404.visiblebarriers.config.ConfigManager;
+import com.aws404.visiblebarriers.config.categories.StructureBlockToolsCategory;
+import com.aws404.visiblebarriers.mixin.GameRendererMixin;
+import com.aws404.visiblebarriers.util.RenderUtils;
 import net.minecraft.block.entity.StructureBlockBlockEntity;
 import net.minecraft.block.enums.StructureBlockMode;
 import net.minecraft.client.MinecraftClient;
@@ -42,9 +43,9 @@ public abstract class StructureBlockBlockEntityRendererMixin extends BlockEntity
 
         // Structure block nameplate renderer
         if (!structure.isEmpty()) {
-            if (ConfigManager.STRUCTURE_BLOCK_NAME_DISPLAY.getValue().constant) {
+            if (StructureBlockToolsCategory.PHYSICAL_NAME_DISPLAY.getValue() == StructureBlockToolsCategory.StructureBlockNameDisplay.BLOCK_CONSTANT) {
                 renderLabel(structureBlockBlockEntity.getStructureName(), matrixStack, vertexConsumerProvider);
-            } else if (ConfigManager.STRUCTURE_BLOCK_NAME_DISPLAY.getValue().onTarget && client.crosshairTarget.getType().equals(HitResult.Type.BLOCK)) {
+            } else if (StructureBlockToolsCategory.PHYSICAL_NAME_DISPLAY.getValue() == StructureBlockToolsCategory.StructureBlockNameDisplay.TARGETED_BLOCK && client.crosshairTarget.getType().equals(HitResult.Type.BLOCK)) {
                 BlockHitResult blockHitResult = (BlockHitResult)client.crosshairTarget;
                 if (blockHitResult.getBlockPos().equals(structureBlockBlockEntity.getPos())) {
                     renderLabel(structureBlockBlockEntity.getStructureName(), matrixStack, vertexConsumerProvider);
@@ -53,9 +54,9 @@ public abstract class StructureBlockBlockEntityRendererMixin extends BlockEntity
         }
 
         // Broken structure block beam renderer
-        if (ConfigManager.BROKEN_STRUCTURE_BLOCK_BEAM.getValue() && (!structureBlockBlockEntity.hasStructureName() || structure.isEmpty()) && structureBlockBlockEntity.getMode() == StructureBlockMode.DATA) {
-            long l = structureBlockBlockEntity.getWorld().getTime();
-            BeaconBlockEntityRenderer.renderLightBeam(matrixStack, vertexConsumerProvider, BEAM_TEXTURE, f, 1.0f, l, i, j, DyeColor.RED.getColorComponents(), 0.15F, 0.175F);
+        if (StructureBlockToolsCategory.BROKEN_BEAM.getValue() && (!structureBlockBlockEntity.hasStructureName() || structure.isEmpty()) && structureBlockBlockEntity.getMode() == StructureBlockMode.DATA) {
+            RenderUtils.outlineBlockAtCurrent(matrixStack, vertexConsumerProvider.getBuffer(RenderUtils.LINES_NO_CULL), 1, 0, 0);
+            BeaconBlockEntityRenderer.renderLightBeam(matrixStack, vertexConsumerProvider, BEAM_TEXTURE, f, 1.0f, structureBlockBlockEntity.getWorld().getTime(), -structureBlockBlockEntity.getPos().getY(), 255 - structureBlockBlockEntity.getPos().getY(), DyeColor.RED.getColorComponents(), 0.15F, 0.175F);
         }
     }
 

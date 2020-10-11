@@ -1,6 +1,6 @@
 package com.aws404.visiblebarriers.technicalvisibility.mixin;
 
-import com.aws404.visiblebarriers.config.ConfigManager;
+import com.aws404.visiblebarriers.config.categories.TechnicalVisibilityConfigCategory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -33,7 +33,7 @@ public abstract class StructureVoidBlockMixin extends Block {
 	 */
 	@Override
 	public boolean isSideInvisible(BlockState state, BlockState neighbor, Direction facing) {
-		return !ConfigManager.TECHNICAL_VISIBILITY.getValue();
+		return !(TechnicalVisibilityConfigCategory.MASTER_SWITCH.getValue() && TechnicalVisibilityConfigCategory.SHOW_STRUCTURE_VOIDS.getValue());
 	}
 
 }

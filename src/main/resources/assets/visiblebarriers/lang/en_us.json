@@ -3,27 +3,30 @@
   "key.visiblebarriers.device_screen": "Open Device Screen",
   "key.visiblebarriers.config_screen": "Open Config Screen",
   "key.visiblebarriers.structure_block_names": "Toggle Structure Name",
+  "key.visiblebarriers.open_armor_stand_selector_screen": "Open Armor Stand Interaction Screen",
 
   "setting.visiblebarriers.toggle": "Setting changed to: %s",
-
-  "setting.visiblebarriers.technical_visibility": "Technical Visibility",
-  "setting.visiblebarriers.technical_visibility.true": "Visible",
-  "setting.visiblebarriers.technical_visibility.false": "Hidden",
-
-  "setting.visiblebarriers.broken_structure_block_beam": "Broken Structure Beam",
-  "setting.visiblebarriers.broken_structure_block_beam.true": "On",
-  "setting.visiblebarriers.broken_structure_block_beam.false": "Off",
-
+  "setting.category.technical_visibility": "Technical Visibility",
+  "setting.visiblebarriers.technical_master": "Master Switch",
+  "setting.visiblebarriers.show_armor_stands": "Show Armor Stands",
+  "setting.visiblebarriers.show_structure_voids": "Show Structure Voids",
+  "setting.visiblebarriers.show_barriers": "Show Barriers",
   "setting.visiblebarriers.guild_banner_beam": "Guild Banner Beam",
-  "setting.visiblebarriers.guild_banner_beam.true": "On",
-  "setting.visiblebarriers.guild_banner_beam.false": "Off",
-
-  "setting.visiblebarriers.structure_block_name_display": "Structure Name Display",
-  "setting.visiblebarriers.loot_chest_highlight": "Highlight Loot Chests",
-  "setting.visiblebarriers.loot_chest_beam": "Loot Chest Beam",
-  "setting.visiblebarriers.loot_chest_file_path": "Loot Chest File",
+  "setting.category.loot_chest": "Loot Chests",
+  "setting.visiblebarriers.render_beam": "Beam Option",
+  "setting.visiblebarriers.file_path": "Chests File",
+  "setting.visiblebarriers.render_model": "Render Model",
+  "setting.visiblebarriers.highlight": "Highlight Option",
+  "setting.category.structure_blocks": "Structure Blocks",
+  "setting.visiblebarriers.action_bar_name_display": "Name on Action Bar",
+  "setting.visiblebarriers.physical_name_display": "Name in World",
+  "setting.visiblebarriers.broken_beam": "Broken Structure Beam",
 
   "message.visiblebarriers.structure_name": "Structure Name: %s",
+  "message.visiblebarriers.chest_info": "[Lv. %s] Line: %s (%s)",
+  "message.visiblebarriers.no_stands": "There are no armor stands nearby!",
+  "message.visiblebarriers.chest_file_error": "There was an error parsing the loot chest file (%s)",
+  "message.visiblebarriers.chest_file_reload": "Loot chest file reloaded!",
 
   "menu.settings.title": "Settings Menu",
   "menu.settings.cycle": "Click to Cycle",
@@ -32,6 +35,15 @@
   "menu.device.title": "Device Selector",
   "menu.type.title": "Select Type",
   "menu.rotation.title": "Select Rotation",
+
+  "menu.interaction.title": "Armor Stand Selector",
+  "menu.interaction.interact": "Interact",
+  "menu.interaction.select": "Select",
+  "menu.interaction.selected": "Selected",
+  "menu.interaction.locked": "Not Selectable",
+  "menu.interaction.locked.hover": "Marker armor stands cannot be right clicked",
+
+  "block.visiblebarriers.vanta": "Vanta Black Block",
 
   "__COMMENT": "1.12 Command Output Formats",
   "commands.blockdata.success": "Block data updated to: %s",

@@ -1,24 +1,20 @@
 package com.aws404.visiblebarriers.config;
 
-import com.aws404.visiblebarriers.config.enums.LootChestBeam;
-import com.aws404.visiblebarriers.config.enums.LootChestHighlighter;
-import com.aws404.visiblebarriers.config.enums.StructureBlockNameDisplay;
+import com.aws404.visiblebarriers.VisibleBarriers;
+import com.aws404.visiblebarriers.config.categories.BaseConfigCategory;
+import com.aws404.visiblebarriers.config.categories.LootChestConfigCategory;
+import com.aws404.visiblebarriers.config.categories.StructureBlockToolsCategory;
+import com.aws404.visiblebarriers.config.categories.TechnicalVisibilityConfigCategory;
 import com.aws404.visiblebarriers.config.types.BaseConfigEntry;
-import com.aws404.visiblebarriers.config.types.BooleanConfigEntry;
-import com.aws404.visiblebarriers.config.types.EnumConfigEntry;
-import com.aws404.visiblebarriers.config.types.StringConfigEntry;
-import com.aws404.visiblebarriers.lootchests.LootChestManager;
-import com.aws404.visiblebarriers.util.VersionUtils;
 import com.google.gson.Gson;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.LiteralText;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,23 +24,12 @@ public class ConfigManager {
 
     private static boolean isInitialised = false;
 
-    public static final HashMap<String, BaseConfigEntry<?>> SETTINGS = new HashMap<>();
-    private static Map<String, String> settingsFile = new HashMap<>();
+    public static final ArrayList<BaseConfigCategory> CATEGORIES = new ArrayList<>();
+    public static Map<String, String> settingsFile = new HashMap<>();
 
     private static final File CONFIG_FILE = new File(client.runDirectory.getPath(), "config/visiblebarriers.json");
-    public static final File DEFAULT_LOOT_CHEST_FILE = new File(FabricLoader.getInstance().getConfigDir().toFile(), "chests.yml");
 
-    private static final String CONFIG_VERSION = "2";
-
-    public static BooleanConfigEntry BROKEN_STRUCTURE_BLOCK_BEAM;
-    public static BooleanConfigEntry TECHNICAL_VISIBILITY;
-    public static BooleanConfigEntry GUILD_BANNER_BEAM;
-
-    public static EnumConfigEntry<LootChestHighlighter> LOOT_CHEST_HIGHLIGHTER;
-    public static EnumConfigEntry<LootChestBeam> LOOT_CHEST_BEAM;
-    public static EnumConfigEntry<StructureBlockNameDisplay> STRUCTURE_BLOCK_NAME_DISPLAY;
-
-    public static StringConfigEntry LOOT_CHEST_FILE_PATH;
+    private static final String CONFIG_VERSION = "3";
 
     public static void start() {
         if (isInitialised)
@@ -52,94 +37,19 @@ public class ConfigManager {
 
         setUpSettingsFile(false);
 
-        BROKEN_STRUCTURE_BLOCK_BEAM = registerBooleanSetting("broken_structure_block_beam", true, null);
-        TECHNICAL_VISIBILITY = registerBooleanSetting("technical_visibility", true, (value) -> {
-            // Reload chunks
-            client.worldRenderer.reload();
-        });
-        GUILD_BANNER_BEAM = registerBooleanSetting("guild_banner_beam", true, null);
-        LOOT_CHEST_HIGHLIGHTER = registerEnumSetting("loot_chest_highlight", LootChestHighlighter.NONE, true, null);
-        LOOT_CHEST_BEAM = registerEnumSetting("loot_chest_beam", LootChestBeam.NONE, true, null);
-        STRUCTURE_BLOCK_NAME_DISPLAY = registerEnumSetting("structure_block_name_display", StructureBlockNameDisplay.NONE, true, null);
-
-        LOOT_CHEST_FILE_PATH = registerStringSetting("loot_chest_file_path", DEFAULT_LOOT_CHEST_FILE.getAbsolutePath(), value -> {
-            LootChestManager.LOOT_CHEST_FILE = new File(value);
-            try {
-                LootChestManager.reloadLootChests();
-            } catch (IOException e) {
-                VersionUtils.sendMessage("Error parsing the loot chest file!");
-            }
-        });
+        CATEGORIES.add(new TechnicalVisibilityConfigCategory(client));
+        CATEGORIES.add(new LootChestConfigCategory(client));
+        CATEGORIES.add(new StructureBlockToolsCategory(client));
 
         saveSettingsFile();
 
         isInitialised = true;
     }
 
-    /**
-     * Registers a setting
-     * @param name the name of the setting
-     * @param requiresCreative if this is true, the value of the setting will be always false if the player is not creative/spectator
-     * @param callback a callback for when the setting is changes
-     */
-    private static BooleanConfigEntry registerBooleanSetting(String name, boolean requiresCreative, BaseConfigEntry.ConfigEntryCallbackChange<Boolean> callback) {
-        if (!settingsFile.containsKey(name)) {
-            settingsFile.put(name, "false");
-        }
-
-        BooleanConfigEntry entry;
-        try {
-            entry = new BooleanConfigEntry(name, Boolean.parseBoolean(settingsFile.get(name)), requiresCreative, callback);
-        } catch (ClassCastException e) {
-            entry = new BooleanConfigEntry(name, false, requiresCreative, callback);
-        }
-        SETTINGS.put(name, entry);
-
-        return entry;
-    }
-
-    /**
-     * Registers a setting
-     */
-    private static <T extends Enum<T>> EnumConfigEntry<T> registerEnumSetting(String name, T defaultValue, boolean requiresCreative, BaseConfigEntry.ConfigEntryCallbackChange<T> callback) {
-        if (!settingsFile.containsKey(name)) {
-            settingsFile.put(name, defaultValue.name());
-        }
-
-        EnumConfigEntry<T> entry;
-        try {
-            entry = new EnumConfigEntry<>(name, T.valueOf(defaultValue.getDeclaringClass(), settingsFile.get(name)), requiresCreative, callback);
-        } catch (ClassCastException | EnumConstantNotPresentException e) {
-            entry = new EnumConfigEntry<>(name, defaultValue, requiresCreative, callback);
-        }
-        SETTINGS.put(name, entry);
-
-        return entry;
-    }
-
-    /**
-     * Registers a setting
-     */
-    private static StringConfigEntry registerStringSetting(String name, String defaultValue, BaseConfigEntry.ConfigEntryCallbackChange<String> callback) {
-        if (!settingsFile.containsKey(name)) {
-            settingsFile.put(name, defaultValue);
-        }
-
-        StringConfigEntry entry;
-        try {
-            entry = new StringConfigEntry(name, settingsFile.get(name), callback);
-        } catch (ClassCastException e) {
-            entry = new StringConfigEntry(name, defaultValue, callback);
-        }
-        SETTINGS.put(name, entry);
-
-        return entry;
-    }
-
     private static void setUpSettingsFile(boolean forceNew) {
         try {
             if (!CONFIG_FILE.exists() || forceNew) {
-                System.out.println("Making new config file!");
+                VisibleBarriers.LOGGER.warn("Creating a new config file. Forced?: {}", forceNew);
                 CONFIG_FILE.createNewFile();
                 saveSettingsFile();
             }
@@ -149,18 +59,18 @@ public class ConfigManager {
             reader.close();
 
             if (!settingsFile.getOrDefault("version", "0").equals(CONFIG_VERSION)) {
-                System.out.println("Settings file out of date, create a new one.");
+                VisibleBarriers.LOGGER.warn("Settings file out of date, create a new one.");
                 setUpSettingsFile(true);
                 return;
             }
 
-            System.out.printf("Successfully loaded '%s' settings from the settings file, with config version '%s'%n", settingsFile.size(), CONFIG_VERSION);
+            VisibleBarriers.LOGGER.info("Successfully loaded '{}' settings from the settings file, with config version '{}'", settingsFile.size(), CONFIG_VERSION);
         } catch (Exception e) {
             if (forceNew) {
                 e.printStackTrace();
-                System.out.println("Error parsing the config file! Tried to make a new one and failed.");
+                VisibleBarriers.LOGGER.fatal("Error parsing the config file! Tried to make a new one and failed. ({})", e.getMessage());
             } else {
-                System.out.println("Error parsing the config file! Creating a new one.");
+                VisibleBarriers.LOGGER.fatal("Error parsing the config file! Creating new one. ({})", e.getMessage());
                 setUpSettingsFile(true);
             }
         }
@@ -168,15 +78,17 @@ public class ConfigManager {
 
     public static void saveSettingsFile() {
         settingsFile.clear();
-        for (BaseConfigEntry<?> entry : SETTINGS.values()) {
-            settingsFile.put(entry.name, entry.getRawValue().toString());
+        for (BaseConfigCategory category : CATEGORIES) {
+            for (Map.Entry<String, BaseConfigEntry<?>> entry : category.getConfigEntries().entrySet()) {
+                settingsFile.put(entry.getKey(), entry.getValue().getRawValue().toString());
+            }
         }
 
         settingsFile.put("version", CONFIG_VERSION);
 
         try {
             if (!CONFIG_FILE.exists()) {
-                System.out.println("Making new config file!");
+                VisibleBarriers.LOGGER.info("No settings file was found, creating one.");
                 CONFIG_FILE.createNewFile();
             }
 
@@ -187,7 +99,7 @@ public class ConfigManager {
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Error saving the config file!");
+            VisibleBarriers.LOGGER.fatal("Error saving the config file. ({}) ", e.getMessage());
         }
     }
 }

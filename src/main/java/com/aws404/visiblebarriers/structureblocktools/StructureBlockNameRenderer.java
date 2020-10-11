@@ -1,7 +1,7 @@
 package com.aws404.visiblebarriers.structureblocktools;
 
-import com.aws404.visiblebarriers.accessors.InGameHudMixin;
-import com.aws404.visiblebarriers.config.ConfigManager;
+import com.aws404.visiblebarriers.config.categories.StructureBlockToolsCategory;
+import com.aws404.visiblebarriers.mixin.InGameHudMixin;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
@@ -32,7 +32,7 @@ public class StructureBlockNameRenderer {
 
     public static void start() {
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
-            if (client.world == null || client.player == null || !ConfigManager.STRUCTURE_BLOCK_NAME_DISPLAY.getValue().actionbar)
+            if (client.world == null || client.player == null || !StructureBlockToolsCategory.ACTION_BAR_NAME_DISPLAY.getValue())
                 return;
 
             // Get the ray trace from the camera

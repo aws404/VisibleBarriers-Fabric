@@ -1,6 +1,6 @@
 package com.aws404.visiblebarriers.technicalvisibility.mixin;
 
-import com.aws404.visiblebarriers.config.ConfigManager;
+import com.aws404.visiblebarriers.config.categories.TechnicalVisibilityConfigCategory;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
@@ -17,8 +17,6 @@ import net.minecraft.nbt.FloatTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -55,7 +53,7 @@ public abstract class ArmorStandEntityRendererMixin extends LivingEntityRenderer
      */
     @Inject(method = "getRenderLayer", at = @At("HEAD"), cancellable = true)
     private void getRenderLayer(ArmorStandEntity armorStandEntity, boolean bl, boolean bl2, boolean bl3, CallbackInfoReturnable<RenderLayer> cir) {
-       if (ConfigManager.TECHNICAL_VISIBILITY.getValue()) {
+       if (TechnicalVisibilityConfigCategory.MASTER_SWITCH.getValue() && TechnicalVisibilityConfigCategory.SHOW_ARMOR_STANDS.getValue()) {
            if (armorStandEntity.isMarker())
                cir.setReturnValue(RenderLayer.getEntityCutoutNoCull(MARKER_SKIN));
            else if (armorStandEntity.isInvisible())
@@ -70,7 +68,7 @@ public abstract class ArmorStandEntityRendererMixin extends LivingEntityRenderer
     public void render(ArmorStandEntity livingEntity, float entityRotation, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
         super.render(livingEntity, entityRotation, g, matrixStack, vertexConsumerProvider, i);
 
-        if (ConfigManager.GUILD_BANNER_BEAM.getValue() && livingEntity.world.getBlockState(livingEntity.getBlockPos().add(0, -1 ,0)).getBlock() == Blocks.SEA_LANTERN) {
+        if (TechnicalVisibilityConfigCategory.GUILD_BANNER_BEAM.getValue() && livingEntity.world.getBlockState(livingEntity.getBlockPos().add(0, -1 ,0)).getBlock() == Blocks.SEA_LANTERN) {
             if (livingEntity.toTag(new CompoundTag()).get("Pose").equals(GUILD_POSE)) {
                 matrixStack.push();
                 matrixStack.translate(-0.5D, 0.0D, -0.5D);

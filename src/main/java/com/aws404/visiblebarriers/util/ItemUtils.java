@@ -1,11 +1,9 @@
 package com.aws404.visiblebarriers.util;
 
-import com.aws404.visiblebarriers.accessors.MinecraftClientAccessor;
-import net.minecraft.block.BlockState;
+import com.aws404.visiblebarriers.mixin.MinecraftClientAccessor;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.StructureBlockBlockEntity;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;

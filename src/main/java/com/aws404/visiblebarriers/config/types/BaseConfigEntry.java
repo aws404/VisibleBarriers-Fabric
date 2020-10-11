@@ -1,21 +1,27 @@
 package com.aws404.visiblebarriers.config.types;
 
+import com.aws404.visiblebarriers.config.menu.SettingsListWidget;
+import com.aws404.visiblebarriers.config.menu.SettingsListWidgetEntry;
+import com.aws404.visiblebarriers.config.menu.SettingsMenu;
+import com.aws404.visiblebarriers.config.menu.SettingsToast;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.toast.SystemToast;
+import net.minecraft.client.toast.ToastManager;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.world.GameMode;
+
+import java.util.function.Consumer;
 
 public abstract class BaseConfigEntry<T> {
     protected static final MinecraftClient client = MinecraftClient.getInstance();
+    protected static final ToastManager toasts = client.getToastManager();
 
     public final String name;
     protected T value;
     public final T defaultValue;
     public final boolean requiresCreative;
-    protected final ConfigEntryCallbackChange<T> callback;
+    protected final Consumer<T> callback;
 
-    public BaseConfigEntry(String name, T defaultValue, boolean requiresCreative, ConfigEntryCallbackChange<T> callback) {
+    public BaseConfigEntry(String name, T defaultValue, boolean requiresCreative, Consumer<T> callback) {
         this.name = name;
         this.value = defaultValue;
         this.defaultValue = defaultValue;
@@ -28,10 +34,17 @@ public abstract class BaseConfigEntry<T> {
     public void setValue(T value) {
         this.value = value;
 
-        SystemToast.show(client.getToastManager(), SystemToast.Type.WORLD_BACKUP, new TranslatableText("setting.visiblebarriers." + name), new TranslatableText("setting.visiblebarriers.toggle", new TranslatableText("setting.visiblebarriers." + name + "." + value)));
+        if (!(client.currentScreen instanceof SettingsMenu)) {
+            SettingsToast oldToast = toasts.getToast(SettingsToast.class, this);
+            if (oldToast != null) {
+                oldToast.update(client);
+            } else {
+                toasts.add(new SettingsToast(client, this));
+            }
+        }
 
         if (callback != null)
-            callback.onChanged(value);
+            callback.accept(value);
     }
 
     public T getValue() {
@@ -48,13 +61,7 @@ public abstract class BaseConfigEntry<T> {
 
     public abstract void cycle();
 
-    public abstract Text getMenuText();
+    public abstract Text getValueText();
 
-    public abstract Text getMenuHoverText();
-
-    public interface ConfigEntryCallbackChange<T> {
-        void onChanged(T value);
-    }
-
-
+    public abstract SettingsListWidgetEntry getSettingsListEntry(SettingsListWidget parent);
 }

@@ -25,10 +25,10 @@
   "mixins": [
     "visiblebarriers.mixin.json",
     "structureblocktools.mixin.json",
-    "accessors.mixin.json",
     "technicalvisibility.mixin.json",
     "devices.mixin.json",
-    "lootchests.mixin.json"
+    "lootchests.mixin.json",
+    "itemchanger.mixin.json"
   ],
 
   "accessWidener" : "visiblebarriers.accesswidener",

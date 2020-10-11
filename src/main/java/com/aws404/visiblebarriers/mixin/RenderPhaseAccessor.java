@@ -45,4 +45,15 @@ public interface RenderPhaseAccessor {
     static RenderPhase.Target outlineTarget() {
         return null;
     }
+
+    @Accessor("ENABLE_DIFFUSE_LIGHTING")
+    static RenderPhase.DiffuseLighting enableDiffuseLighting() {
+        return null;
+    }
+
+    @Accessor("ENABLE_OVERLAY_COLOR")
+    static RenderPhase.Overlay enableOverlayColoring() {
+        return null;
+    }
+
 }

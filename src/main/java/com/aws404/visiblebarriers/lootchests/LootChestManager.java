@@ -1,7 +1,7 @@
 package com.aws404.visiblebarriers.lootchests;
 
-import com.aws404.visiblebarriers.config.ConfigManager;
-import net.fabricmc.loader.api.FabricLoader;
+import com.aws404.visiblebarriers.VisibleBarriers;
+import com.aws404.visiblebarriers.config.categories.LootChestConfigCategory;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.BlockPos;
 
@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class LootChestManager {
-    public static File LOOT_CHEST_FILE = new File(ConfigManager.LOOT_CHEST_FILE_PATH.getValue());
+    public static File LOOT_CHEST_FILE = new File(LootChestConfigCategory.FILE_PATH.getValue());
     public static final ArrayList<LootChest> LOOT_CHEST_LOCATIONS = new ArrayList<>();
     private static final Pattern LOC_PATTERN = Pattern.compile("([^#])( )*-( )*loc:( )*(?<coords>-?\\d*,-?\\d*,-?\\d*)");
     private static final Pattern LEVEL_PATTERN = Pattern.compile("grade(?<level>\\d):");
@@ -57,11 +57,13 @@ public class LootChestManager {
 
         reader.close();
         fileReader.close();
+
+        VisibleBarriers.LOGGER.info("Successfully loaded '{}' chests from the loot chest file.", LOOT_CHEST_LOCATIONS.size());
     }
 
-    public static List<LootChest> getRelevantLocations() {
+    public static List<LootChest> getRelevantLocations(int distance) {
         BlockPos playerLocation = client.player.getBlockPos();
-        return LOOT_CHEST_LOCATIONS.stream().filter(lootChest -> lootChest.pos.isWithinDistance(playerLocation, 150)).sorted((o1, o2) -> {
+        return LOOT_CHEST_LOCATIONS.stream().filter(lootChest -> lootChest.pos.isWithinDistance(playerLocation, distance)).sorted((o1, o2) -> {
             double distance1 = o1.pos.getSquaredDistance(playerLocation.getX(), playerLocation.getY(), playerLocation.getZ(), true);
             double distance2 = o2.pos.getSquaredDistance(playerLocation.getX(), playerLocation.getY(), playerLocation.getZ(), true);
             return Double.compare(distance1, distance2);

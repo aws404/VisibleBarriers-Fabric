@@ -1,12 +1,21 @@
 package com.aws404.visiblebarriers.config.types;
 
+import com.aws404.visiblebarriers.config.menu.SettingsListWidget;
+import com.aws404.visiblebarriers.config.menu.SettingsListWidgetEntry;
+import com.google.common.collect.ImmutableList;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 public class EnumConfigEntry<T extends Enum<T>> extends BaseConfigEntry<T> {
 
-    public EnumConfigEntry(String name, T defaultValue, boolean requiresCreative, ConfigEntryCallbackChange<T> callback) {
+    public EnumConfigEntry(String name, T defaultValue, boolean requiresCreative, Consumer<T> callback) {
         super(name, defaultValue, requiresCreative, callback);
     }
 
@@ -20,20 +29,50 @@ public class EnumConfigEntry<T extends Enum<T>> extends BaseConfigEntry<T> {
         T[] test = (T[]) defaultValue.getClass().getEnumConstants();
         int newOrdinal = value.ordinal() + 1;
         if (newOrdinal > test.length - 1) {
-            value = test[0];
+            setValue(test[0]);
         } else {
-            value = test[newOrdinal];
+            setValue(test[newOrdinal]);
         }
     }
 
     @Override
-    public Text getMenuText() {
-        return new TranslatableText("setting.visiblebarriers." + name).append(new LiteralText(": " + value.toString()));
+    public Text getValueText() {
+        return new LiteralText(value.toString());
     }
 
     @Override
-    public Text getMenuHoverText() {
-        return new TranslatableText("menu.settings.cycle");
+    public SettingsListWidgetEntry getSettingsListEntry(SettingsListWidget parent) {
+        return new EnumConfigListEntry(client, parent, this);
     }
 
+    public static class EnumConfigListEntry extends SettingsListWidgetEntry.SettingsListWidgetConfigEntry {
+        private final ButtonWidget editButton;
+
+        private EnumConfigListEntry(MinecraftClient client, SettingsListWidget parent, EnumConfigEntry<?> entry) {
+            super(client, parent, entry);
+            this.editButton = new ButtonWidget(0, 0, 200, 20, new LiteralText("Select"), (buttonWidget) -> {
+                entry.cycle();
+            });
+        }
+
+        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+            super.render(matrices, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
+            this.editButton.x = x + 105;
+            this.editButton.y = (y + entryHeight / 2) - 10;
+            this.editButton.setMessage(entry.getValueText());
+            this.editButton.render(matrices, mouseX, mouseY, tickDelta);
+        }
+
+        public List<? extends Element> children() {
+            return ImmutableList.of(this.editButton);
+        }
+
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            return this.editButton.mouseClicked(mouseX, mouseY, button);
+        }
+
+        public boolean mouseReleased(double mouseX, double mouseY, int button) {
+            return this.editButton.mouseReleased(mouseX, mouseY, button);
+        }
+    }
 }

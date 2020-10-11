@@ -20,6 +20,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.profiler.Profiler;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -33,13 +34,11 @@ import java.util.List;
 @Mixin(WorldRenderer.class)
 public abstract class WorldRendererMixin implements AutoCloseable, SynchronousResourceReloadListener {
 
-    @Shadow
-    private MinecraftClient client;
+    @Shadow @Final private MinecraftClient client;
 
-    @Shadow
-    public static void drawBox(MatrixStack matrix, VertexConsumer vertexConsumer, double x1, double y1, double z1, double x2, double y2, double z2, float red, float f, float g, float alpha, float h, float green, float blue) { };
+    @Shadow public static void drawBox(MatrixStack matrix, VertexConsumer vertexConsumer, double x1, double y1, double z1, double x2, double y2, double z2, float red, float f, float g, float alpha, float h, float green, float blue) { };
 
-    private ArrayList<Direction> directions = new ArrayList<>();
+    private final ArrayList<Direction> directions = new ArrayList<>();
 
     /**
      * Handles the visuals for the ore placer

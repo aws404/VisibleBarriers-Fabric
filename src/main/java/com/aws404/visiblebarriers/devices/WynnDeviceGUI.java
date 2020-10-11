@@ -1,9 +1,6 @@
 package com.aws404.visiblebarriers.devices;
 
 import com.aws404.visiblebarriers.util.ItemUtils;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.CommandBlockBlockEntity;
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.DiffuseLighting;
