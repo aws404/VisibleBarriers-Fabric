@@ -40,17 +40,17 @@ public class StringConfigEntry extends BaseConfigEntry<String> {
         private StringConfigListEntry(MinecraftClient client, SettingsListWidget parent, StringConfigEntry entry) {
             super(client, parent, entry);
             this.newValue = entry.getValue();
-            this.textFieldWidget = new TextFieldWidget(client.textRenderer, 0, 0, 200, 20, entry.getValueText());
+            this.textFieldWidget = new TextFieldWidget(client.textRenderer, 0, 0, 200, 20, entry.getValueText().asFormattedString());
             this.textFieldWidget.setMaxLength(255);
             this.textFieldWidget.setText(entry.getRawValue());
             this.textFieldWidget.setChangedListener((string) -> this.newValue = string);
         }
 
-        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            super.render(matrices, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
+        public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+            super.render(index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
             this.textFieldWidget.x = x + 105;
             this.textFieldWidget.y = (y + entryHeight / 2) - 10;
-            this.textFieldWidget.render(matrices, mouseX, mouseY, tickDelta);
+            this.textFieldWidget.render(mouseX, mouseY, tickDelta);
         }
 
         public void tick() {

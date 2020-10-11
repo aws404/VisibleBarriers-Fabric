@@ -50,17 +50,17 @@ public class EnumConfigEntry<T extends Enum<T>> extends BaseConfigEntry<T> {
 
         private EnumConfigListEntry(MinecraftClient client, SettingsListWidget parent, EnumConfigEntry<?> entry) {
             super(client, parent, entry);
-            this.editButton = new ButtonWidget(0, 0, 200, 20, new LiteralText("Select"), (buttonWidget) -> {
+            this.editButton = new ButtonWidget(0, 0, 200, 20, "Select", (buttonWidget) -> {
                 entry.cycle();
             });
         }
 
-        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            super.render(matrices, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
+        public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+            super.render(index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
             this.editButton.x = x + 105;
             this.editButton.y = (y + entryHeight / 2) - 10;
-            this.editButton.setMessage(entry.getValueText());
-            this.editButton.render(matrices, mouseX, mouseY, tickDelta);
+            this.editButton.setMessage(entry.getValueText().asFormattedString());
+            this.editButton.render(mouseX, mouseY, tickDelta);
         }
 
         public List<? extends Element> children() {

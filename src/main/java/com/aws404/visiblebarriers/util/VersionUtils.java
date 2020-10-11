@@ -8,6 +8,6 @@ public class VersionUtils {
     private static final MinecraftClient client = MinecraftClient.getInstance();
 
     public static void sendMessage(Text message) {
-        client.player.sendMessage(message, false);
+        client.player.sendMessage(message);
     }
 }

@@ -55,7 +55,7 @@ public class KeyBindings {
             }
 
             while (OPEN_ARMOR_STAND_SELECTOR_SCREEN.wasPressed()) {
-                List<ArmorStandEntity> list = client.world.getEntitiesByClass(ArmorStandEntity.class, client.player.getVisibilityBoundingBox().expand(3, 3, 3), null);
+                List<ArmorStandEntity> list = client.world.getEntities(ArmorStandEntity.class, client.player.getVisibilityBoundingBox().expand(3, 3, 3), null);
                 if (list.size() > 0) {
                     client.openScreen(new InteractionScreen(list));
                 } else {

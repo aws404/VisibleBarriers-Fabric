@@ -17,6 +17,7 @@ import net.minecraft.nbt.FloatTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -52,7 +53,7 @@ public abstract class ArmorStandEntityRendererMixin extends LivingEntityRenderer
      * Invisible and marker visibility renderer
      */
     @Inject(method = "getRenderLayer", at = @At("HEAD"), cancellable = true)
-    private void getRenderLayer(ArmorStandEntity armorStandEntity, boolean bl, boolean bl2, boolean bl3, CallbackInfoReturnable<RenderLayer> cir) {
+    private void getRenderLayer(ArmorStandEntity armorStandEntity, boolean bl, boolean bl2, CallbackInfoReturnable<@Nullable RenderLayer> cir) {
        if (TechnicalVisibilityConfigCategory.MASTER_SWITCH.getValue() && TechnicalVisibilityConfigCategory.SHOW_ARMOR_STANDS.getValue()) {
            if (armorStandEntity.isMarker())
                cir.setReturnValue(RenderLayer.getEntityCutoutNoCull(MARKER_SKIN));

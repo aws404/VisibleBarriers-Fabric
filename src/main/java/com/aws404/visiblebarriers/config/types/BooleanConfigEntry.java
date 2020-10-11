@@ -42,14 +42,14 @@ public class BooleanConfigEntry extends BaseConfigEntry<Boolean> {
 
         private BooleanConfigListEntry(MinecraftClient client, SettingsListWidget parent, BooleanConfigEntry entry) {
             super(client, parent, entry);
-            this.checkBox = new CheckboxWidget(0, 0, 200, 20, entry.getValueText(), entry.getValue(), false);
+            this.checkBox = new CheckboxWidget(0, 0, 200, 20, "", entry.getValue());
         }
 
-        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            super.render(matrices, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
+        public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+            super.render(index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
             this.checkBox.x = x + 205;
             this.checkBox.y = (y + entryHeight / 2) - 10;
-            this.checkBox.render(matrices, mouseX, mouseY, tickDelta);
+            this.checkBox.render(mouseX, mouseY, tickDelta);
         }
 
         public List<? extends Element> children() {

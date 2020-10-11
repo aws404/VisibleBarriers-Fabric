@@ -12,12 +12,12 @@ import net.minecraft.client.render.block.entity.BeaconBlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.StructureBlockBlockEntityRenderer;
+import net.minecraft.client.util.math.Matrix4f;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class StructureBlockBlockEntityRendererMixin extends BlockEntityRenderer<StructureBlockBlockEntity> {
 
     private static final Identifier BEAM_TEXTURE = new Identifier("textures/entity/beacon_beam.png");
-    private static MinecraftClient client = MinecraftClient.getInstance();
+    private static final MinecraftClient client = MinecraftClient.getInstance();
 
     public StructureBlockBlockEntityRendererMixin(BlockEntityRenderDispatcher dispatcher) {
         super(dispatcher);
@@ -72,7 +72,7 @@ public abstract class StructureBlockBlockEntityRendererMixin extends BlockEntity
         int backgroundColor = (int)(client.options.getTextBackgroundOpacity(0.25F) * 255.0F) << 24;
 
         TextRenderer textRenderer = client.textRenderer;
-        float stringWidth = (float)(-textRenderer.getWidth(string) / 2);
+        float stringWidth = (float)(-textRenderer.getStringWidth(string) / 2);
         textRenderer.draw(string, stringWidth, 0, 553648127, false, matrix4f, vertexConsumerProvider, false, backgroundColor, 15728880);
         textRenderer.draw(string, stringWidth, 0, -1, false, matrix4f, vertexConsumerProvider, false, 0, 15728880);
 

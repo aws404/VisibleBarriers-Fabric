@@ -23,10 +23,10 @@ public class InteractionScreen extends Screen {
 
     @Override
     protected void init() {
-        this.addButton(new ButtonWidget((width / 4) * 3 - 50, (height / 8) * 7, 100, 20, new TranslatableText("menu.interaction.interact"), button -> {
-            client.openScreen(null);
+        this.addButton(new ButtonWidget((width / 4) * 3 - 50, (height / 8) * 7, 100, 20, new TranslatableText("menu.interaction.interact").asFormattedString(), button -> {
+            minecraft.openScreen(null);
             Vec3d vec3d = listWidget.getSelected().entity.getPos();
-            client.getNetworkHandler().sendPacket(new PlayerInteractEntityC2SPacket(listWidget.getSelected().entity, Hand.MAIN_HAND, vec3d, false));
+            minecraft.getNetworkHandler().sendPacket(new PlayerInteractEntityC2SPacket(listWidget.getSelected().entity, Hand.MAIN_HAND, vec3d));
         }));
 
         this.listWidget = new InteractionListWidget(this, stands);
@@ -38,12 +38,12 @@ public class InteractionScreen extends Screen {
         super.init();
     }
 
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        renderBackground(matrices);
-        listWidget.render(matrices, mouseX, mouseY, delta);
-        entityRenderWidget.render(matrices, mouseX, mouseY, delta);
-        drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 8, 16777215);
-        super.render(matrices, mouseX, mouseY, delta);
+    public void render(int mouseX, int mouseY, float delta) {
+        renderBackground();
+        listWidget.render(mouseX, mouseY, delta);
+        entityRenderWidget.render(mouseX, mouseY, delta);
+        drawCenteredString(this.font, this.title.asFormattedString(), this.width / 2, 8, 16777215);
+        super.render(mouseX, mouseY, delta);
     }
 
     @Override

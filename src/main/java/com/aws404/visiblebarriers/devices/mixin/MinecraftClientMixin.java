@@ -50,8 +50,8 @@ public abstract class MinecraftClientMixin {
                 if (!block.getBlock().equals(Blocks.SEA_LANTERN)) {
                     // Sets titles (takes 3 functions because minecrafts title system is weird)
                     instance.inGameHud.setTitles(null, null, 5, 10, 5);
-                    instance.inGameHud.setTitles(null, new LiteralText("Missing Sea Lantern").formatted(Formatting.RED), -1, -1, -1);
-                    instance.inGameHud.setTitles(new LiteralText(""),null, -1, -1, -1);
+                    instance.inGameHud.setTitles(null, new LiteralText("Missing Sea Lantern").formatted(Formatting.RED).asString(), -1, -1, -1);
+                    instance.inGameHud.setTitles("",null, -1, -1, -1);
                     ci.cancel();
                 }
             }
@@ -85,7 +85,7 @@ public abstract class MinecraftClientMixin {
 
             // Fish Placer
             if (item.getName().asString().contains(" Fish Placer")) {
-                HitResult rawRayTrace = instance.getCameraEntity().raycast(10.0D, 0.0F, true);
+                HitResult rawRayTrace = instance.getCameraEntity().rayTrace(10.0D, 0.0F, true);
                 if (rawRayTrace.getType() == HitResult.Type.BLOCK) {
                     BlockPos pos = ((BlockHitResult) rawRayTrace).getBlockPos();
                     Fluid fluid = instance.world.getFluidState(pos).getFluid();

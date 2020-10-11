@@ -4,7 +4,6 @@ import com.aws404.visiblebarriers.mixin.RenderPhaseAccessor;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -45,7 +44,6 @@ public class RenderUtils {
     }
 
     public static void drawCenteredText(MatrixStack matrices, TextRenderer textRenderer, Text text, int centerX, int y, int color) {
-        OrderedText orderedText = text.asOrderedText();
-        textRenderer.drawWithShadow(matrices, orderedText, (float)(centerX - textRenderer.getWidth(orderedText) / 2), (float)y, color);
+        textRenderer.drawWithShadow(text.getString(), (float)(centerX - textRenderer.getStringWidth(text.getString()) / 2), (float)y, color);
     }
 }

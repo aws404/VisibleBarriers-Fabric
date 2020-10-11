@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(RenderPhase.class)
 public interface RenderPhaseAccessor {
-    @Accessor("VIEW_OFFSET_Z_LAYERING")
+    @Accessor("PROJECTION_LAYERING")
     static RenderPhase.Layering getProjectionLayering() {
         return null;
     }

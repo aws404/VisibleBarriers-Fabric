@@ -12,12 +12,13 @@ import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
@@ -40,7 +41,7 @@ public class InteractionListWidget extends EntryListWidget<InteractionListWidget
         setSelected(getEntry(0));
     }
 
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(int mouseX, int mouseY, float delta) {
         int scrollbarPositionX = this.width / 2;
         int j = scrollbarPositionX + 6;
 
@@ -49,10 +50,10 @@ public class InteractionListWidget extends EntryListWidget<InteractionListWidget
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        client.getTextureManager().bindTexture(DrawableHelper.OPTIONS_BACKGROUND_TEXTURE);
-        renderList(matrices, l, mouseX, mouseY, delta);
+        client.getTextureManager().bindTexture(DrawableHelper.BACKGROUND_LOCATION);
+        renderList(l, mouseX, mouseY, delta);
 
-        client.getTextureManager().bindTexture(DrawableHelper.OPTIONS_BACKGROUND_TEXTURE);
+        client.getTextureManager().bindTexture(DrawableHelper.BACKGROUND_LOCATION);
         RenderSystem.enableDepthTest();
         RenderSystem.depthFunc(519);
 
@@ -105,7 +106,7 @@ public class InteractionListWidget extends EntryListWidget<InteractionListWidget
             tessellator.draw();
         }
 
-        renderDecorations(matrices, mouseX, mouseY);
+        renderDecorations(mouseX, mouseY);
 
         RenderSystem.enableTexture();
         RenderSystem.shadeModel(7424);
@@ -113,7 +114,7 @@ public class InteractionListWidget extends EntryListWidget<InteractionListWidget
         RenderSystem.disableBlend();
     }
 
-    protected void renderList(MatrixStack matrices, int y, int mouseX, int mouseY, float delta) {
+    protected void renderList(int y, int mouseX, int mouseY, float delta) {
         int i = this.getItemCount();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
@@ -148,7 +149,7 @@ public class InteractionListWidget extends EntryListWidget<InteractionListWidget
                     RenderSystem.enableTexture();
                 }
 
-                entry.render(matrices, index, renderY, this.width / 2 - width, width, height, mouseX, mouseY, isMouseOver(mouseX, mouseY) && Objects.equals(getEntryAtPosition(mouseX, mouseY), entry), delta);
+                entry.render(index, renderY, this.width / 2 - width, width, height, mouseX, mouseY, isMouseOver(mouseX, mouseY) && Objects.equals(getEntryAtPosition(mouseX, mouseY), entry), delta);
             }
         }
 
@@ -156,12 +157,12 @@ public class InteractionListWidget extends EntryListWidget<InteractionListWidget
 
     public class StandEntry extends ElementListWidget.Entry<StandEntry> {
         public final ArmorStandEntity entity;
-        private MutableText name;
+        private Text name;
         private final ButtonWidget editButton;
 
         private StandEntry(ArmorStandEntity entity) {
             this.entity = entity;
-            this.editButton = new ButtonWidget(0, 0, 75, 20, new TranslatableText("menu.interaction.select"), (buttonWidget) -> {
+            this.editButton = new ButtonWidget(0, 0, 75, 20, I18n.translate("menu.interaction.select"), (buttonWidget) -> {
                 setSelected(this);
                 parent.entityRenderWidget.setEntity(entity);
             });
@@ -183,29 +184,29 @@ public class InteractionListWidget extends EntryListWidget<InteractionListWidget
             } else if (entity.isInvisible()) {
                 this.name = name.formatted(Formatting.BLUE);
             }
-            maxKeyNameLength = Math.max(maxKeyNameLength, client.textRenderer.getWidth(name));
+            maxKeyNameLength = Math.max(maxKeyNameLength, client.textRenderer.getStringWidth(name.asString()));
         }
 
-        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            client.textRenderer.draw(matrices, name, (float) (x + 90 - maxKeyNameLength), (float) ((y + entryHeight / 2) - 9 / 2), 16777215);
+        public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+            client.textRenderer.draw(name.asString(), (float) (x + 90 - maxKeyNameLength), (float) ((y + entryHeight / 2) - 9 / 2), 16777215);
             this.editButton.x = x + 105;
             this.editButton.y = (y + entryHeight / 2) - 10;
 
             if (getSelected() == this) {
                 editButton.active = false;
-                editButton.setMessage(new TranslatableText("menu.interaction.selected"));
+                editButton.setMessage(I18n.translate("menu.interaction.selected"));
             } else if (entity.isMarker()) {
                 editButton.active = false;
-                editButton.setMessage(new TranslatableText("menu.interaction.locked"));
+                editButton.setMessage(I18n.translate("menu.interaction.locked"));
                 if (isMouseOver(mouseX, mouseY)) {
-                    parent.renderTooltip(matrices, new TranslatableText("menu.interaction.locked.hover"), mouseX, mouseY);
+                    parent.renderTooltip(I18n.translate("menu.interaction.locked.hover"), mouseX, mouseY);
                 }
             } else {
                 editButton.active = true;
-                editButton.setMessage(new TranslatableText("menu.interaction.select"));
+                editButton.setMessage(I18n.translate("menu.interaction.select"));
             }
 
-            this.editButton.render(matrices, mouseX, mouseY, tickDelta);
+            this.editButton.render(mouseX, mouseY, tickDelta);
 
         }
 

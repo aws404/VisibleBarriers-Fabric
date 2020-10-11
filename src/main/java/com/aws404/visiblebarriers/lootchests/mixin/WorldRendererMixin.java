@@ -4,16 +4,17 @@ import com.aws404.visiblebarriers.config.categories.LootChestConfigCategory;
 import com.aws404.visiblebarriers.lootchests.LootChestManager;
 import com.aws404.visiblebarriers.util.RenderUtils;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.ChestBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.block.entity.BeaconBlockEntityRenderer;
+import net.minecraft.client.util.math.Matrix4f;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Matrix4f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -55,7 +56,7 @@ public abstract class WorldRendererMixin {
                 matrices.translate(lootChest.pos.getX() - camX, lootChest.pos.getY() - camY, lootChest.pos.getZ() - camZ);
 
                 boolean isBroken = !client.world.getBlockState(lootChest.pos).getMaterial().isReplaceable()
-                        || client.world.getBlockState(lootChest.pos.add(0, 1, 0)).isSolidBlock(world, lootChest.pos.add(0, 1, 0))
+                        || client.world.getBlockState(lootChest.pos.add(0, 1, 0)).isSimpleFullBlock(world, lootChest.pos.add(0, 1, 0))
                         || client.world.getBlockState(lootChest.pos.add(0, -1, 0)).getBlock() == Blocks.AIR;
 
                 // Draws the box at the loot chests location

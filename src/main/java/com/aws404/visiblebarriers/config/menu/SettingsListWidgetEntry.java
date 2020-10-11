@@ -5,7 +5,6 @@ import com.aws404.visiblebarriers.util.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ElementListWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
@@ -21,7 +20,7 @@ public abstract class SettingsListWidgetEntry extends ElementListWidget.Entry<Se
         this.parent = parent;
     }
 
-    public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+    public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
     }
 
     public void onClose() {
@@ -38,11 +37,11 @@ public abstract class SettingsListWidgetEntry extends ElementListWidget.Entry<Se
             super(client, parent);
             this.entry = entry;
             this.name = new TranslatableText("setting.visiblebarriers." + entry.name);
-            parent.maxKeyNameLength = Math.max(parent.maxKeyNameLength, client.textRenderer.getWidth(name));
+            parent.maxKeyNameLength = Math.max(parent.maxKeyNameLength, client.textRenderer.getStringWidth(name.asFormattedString()));
         }
 
-        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            client.textRenderer.draw(matrices, name, (float) (x + 90 - parent.maxKeyNameLength), (float) ((y + entryHeight / 2) - 9 / 2), 16777215);
+        public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+            client.textRenderer.draw(name.asFormattedString(), (float) (x + 90 - parent.maxKeyNameLength), (float) ((y + entryHeight / 2) - 9 / 2), 16777215);
         }
 
         public List<? extends Element> children() {
@@ -59,8 +58,8 @@ public abstract class SettingsListWidgetEntry extends ElementListWidget.Entry<Se
             this.text = text;
         }
 
-        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            RenderUtils.drawCenteredText(matrices, client.textRenderer, this.text, parent.parent.width / 2, ((y + entryHeight / 2) - 9 / 2), 16777215);
+        public void render(int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+            RenderUtils.drawCenteredText(null, client.textRenderer, this.text, parent.parent.width / 2, ((y + entryHeight / 2) - 9 / 2), 16777215);
         }
 
         public List<? extends Element> children() {

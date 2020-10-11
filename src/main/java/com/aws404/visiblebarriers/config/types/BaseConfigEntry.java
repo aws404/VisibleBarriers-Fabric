@@ -37,9 +37,9 @@ public abstract class BaseConfigEntry<T> {
         if (!(client.currentScreen instanceof SettingsMenu)) {
             SettingsToast oldToast = toasts.getToast(SettingsToast.class, this);
             if (oldToast != null) {
-                oldToast.update(client);
+                oldToast.update();
             } else {
-                toasts.add(new SettingsToast(client, this));
+                toasts.add(new SettingsToast(this));
             }
         }
 
