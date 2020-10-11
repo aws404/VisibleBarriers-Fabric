@@ -1,6 +1,8 @@
 package com.aws404.visiblebarriers.itemchanger;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
@@ -27,11 +29,11 @@ public class ItemManager {
         registerItemOverride(Items.MUSHROOM_STEM, new Identifier("red_mushroom"), new LiteralText("ALL SIDED MUSHROOM STEM RED"), null);
     }
 
-    public static final HashMap<Identifier, ItemGroup> GROUP_REPLACEMENTS = new HashMap<Identifier, ItemGroup>() {{
-        put(new Identifier("barrier"), ItemGroup.TOOLS);
-        put(new Identifier("command_block"), ItemGroup.REDSTONE);
-        put(new Identifier("structure_block"), ItemGroup.REDSTONE);
-        put(new Identifier("structure_void"), ItemGroup.REDSTONE);
+    public static final HashMap<Block, ItemGroup> GROUP_REPLACEMENTS = new HashMap<Block, ItemGroup>() {{
+        put(Blocks.BARRIER, ItemGroup.TOOLS);
+        put(Blocks.COMMAND_BLOCK, ItemGroup.REDSTONE);
+        put(Blocks.STRUCTURE_BLOCK, ItemGroup.REDSTONE);
+        put(Blocks.STRUCTURE_VOID, ItemGroup.REDSTONE);
     }};
 
     private static Item registerItemOverride(Item original, Identifier replacementItem, LiteralText itemName, String lore) {
